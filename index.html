@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ansh Matlotia — Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0f0f0f;
+  --text:#eaeaea;
+  --muted:#9a9a9a;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  overflow:hidden;
+}
+
+.view{
+  position:fixed;
+  inset:0;
+  padding:40px 24px;
+  transform:translateX(100%);
+  transition:transform .45s ease;
+}
+
+.view.active{
+  transform:translateX(0);
+}
+
+.container{
+  max-width:900px;
+}
+
+@media(min-width:768px){
+  .view{padding:60px 80px}
+}
+
+.name{
+  font-size:14px;
+  letter-spacing:.08em;
+  margin-bottom:40px;
+}
+
+/* Blink animation */
+.blink{
+  animation: blinkDash 2s infinite;
+}
+@keyframes blinkDash{
+  0%,45%{opacity:1}
+  50%,95%{opacity:0}
+  100%{opacity:1}
+}
+
+.list{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.item{
+  font-size:14px;
+  letter-spacing:.08em;
+  color:var(--muted);
+  cursor:pointer;
+  width:fit-content;
+}
+.item:hover{color:var(--text)}
+
+.back{
+  font-size:13px;
+  color:var(--muted);
+  cursor:pointer;
+  margin-bottom:40px;
+}
+
+h2{
+  font-size:14px;
+  letter-spacing:.12em;
+  margin-bottom:24px;
+}
+
+p{
+  font-size:14px;
+  line-height:1.7;
+  color:var(--muted);
+  max-width:520px;
+  text-align: justify;
+}
+
+/* Project link */
+.project-link{
+  display:inline-block;
+  margin-top:20px;
+  font-size:13px;
+  letter-spacing:.08em;
+  color:var(--muted);
+  text-decoration:none;
+}
+.project-link:hover{
+  color:var(--text);
+}
+
+/* Old-style external links */
+.external-links{
+  margin-top:60px;
+  display:flex;
+  gap:40px;
+  font-size:13px;
+  letter-spacing:.08em;
+}
+.external-links a{
+  color:var(--muted);
+  text-decoration:none;
+}
+.external-links a:hover{
+  color:var(--text);
+}
+
+/* Footer */
+.footer{
+  position:fixed;
+  bottom:16px;
+  right:20px;
+  font-size:12px;
+  letter-spacing:.06em;
+  opacity:0.2;
+  font-style: italic;
+  font-weight:300;
+  pointer-events:none;
+}
+
+
+/* ---------- MOBILE OPTIMIZATION ---------- */
+@media (max-width: 768px){
+
+  .name{
+    margin-bottom:32px;
+  }
+
+  .list{
+    gap:22px;
+  }
+
+  .item{
+    font-size:15px;
+  }
+
+  .external-links{
+    flex-direction:column;
+    gap:16px;
+    margin-top:48px;
+  }
+
+  .external-links a{
+    font-size:14px;
+  }
+
+  .back{
+    margin-bottom:32px;
+  }
+
+  p{
+    font-size:15px;
+    line-height:1.8;
+  }
+
+  h2{
+    margin-bottom:20px;
+  }
+
+  footer{
+    font-size:11px;
+    bottom:14px;
+    right:16px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px){
+
+  .view{
+    padding:32px 20px;
+  }
+
+  .item{
+    font-size:14px;
+  }
+
+  .external-links a{
+    font-size:13px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div class="view active" id="home">
+  <div class="container">
+    <div class="name">
+      Ansh Matlotia <span class="blink">_</span>
+    </div>
+
+    <div class="list">
+      <div class="item" onclick="openView('work')">Work</div>
+      <div class="item" onclick="openView('about')">About</div>
+      <div class="item" onclick="openView('contact')">Contact</div>
+    </div>
+
+    <div class="external-links">
+      <a href="https://www.notion.so" target="_blank">Notion</a>
+      <a href="https://open.spotify.com" target="_blank">Spotify</a>
+      <a href="https://x.com" target="_blank">X</a>
+    </div>
+  </div>
+</div>
+
+<!-- WORK -->
+<div class="view" id="work">
+  <div class="container">
+    <div class="back" onclick="goBack()">← Back</div>
+    <h2>Work</h2>
+    <div class="list">
+      <div class="item" onclick="openView('project1')">Elite Marry Me</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECT -->
+<div class="view" id="project1">
+  <div class="container">
+    <div class="back" onclick="goBack()">← Back</div>
+    <h2>Elite Marry Me</h2>
+
+    <p>
+      Elite Marry Me is a premium matrimony platform focused on creating meaningful, high-intent connections through a refined digital experience. I worked as a UI/UX Designer, handling the complete design process—from user research and journey mapping to wireframing, visual design, and interaction refinement—ensuring clarity, trust, and a seamless, emotionally balanced user experience aligned with the platform’s elite positioning.
+    </p>
+
+    <a 
+      href="https://elitemarryme.com" 
+      target="_blank" 
+      class="project-link"
+    >
+      View Live Project →
+    </a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="view" id="about">
+  <div class="container">
+    <div class="back" onclick="goBack()">← Back</div>
+    <h2>About</h2>
+    <p>
+      I am a UI/UX Designer focused on crafting clean, intuitive, and user-centered digital experiences. I specialize in translating complex ideas into simple, functional interfaces through thoughtful design systems, usability, and responsive layouts. I aim to create products that are not only visually refined but also purposeful and easy to use.
+    </p>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="view" id="contact">
+  <div class="container">
+    <div class="back" onclick="goBack()">← Back</div>
+    <h2>Contact</h2>
+    <p>
+      anshmatlotia@gmail.com
+    </p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  Ansh Matlotia 2026
+</div>
+
+<script>
+const stack = ['home'];
+
+function openView(id){
+  document.getElementById(stack[stack.length-1]).classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  stack.push(id);
+}
+
+function goBack(){
+  if(stack.length > 1){
+    document.getElementById(stack.pop()).classList.remove('active');
+    document.getElementById(stack[stack.length-1]).classList.add('active');
+  }
+}
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.addEventListener('touchstart', e => {
+  if (e.touches.length === 1) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }
+});
+
+document.addEventListener('touchend', e => {
+  if (!touchStartX || !touchStartY) return;
+
+  const touchEndX = e.changedTouches[0].clientX;
+  const touchEndY = e.changedTouches[0].clientY;
+
+  const diffX = touchEndX - touchStartX;
+  const diffY = touchEndY - touchStartY;
+
+  if (diffX > 70 && Math.abs(diffX) > Math.abs(diffY)) {
+    goBack();
+  }
+
+  touchStartX = 0;
+  touchStartY = 0;
+});
+</script>
+
+</body>
+</html>
