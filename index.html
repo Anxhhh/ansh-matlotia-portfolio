@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Ansh Matlotia — Portfolio</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Portfolio of Ansh Matlotia, UI/UX Designer focused on clean, purposeful digital experiences and interface design.">
+<link rel="canonical" href="https://yourdomain.com/">
+
+<!-- Performance: font preconnect -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 
@@ -23,6 +30,19 @@ body{
   font-family:'JetBrains Mono', monospace;
   overflow:hidden;
   -webkit-font-smoothing:antialiased;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation:none !important;
+    transition:none !important;
+  }
+}
+
+/* Pause animations when tab inactive */
+.paused *{
+  animation-play-state: paused !important;
 }
 
 /* ---------- VIEW SYSTEM ---------- */
@@ -138,16 +158,19 @@ p{
     <div class="name">Ansh Matlotia <span class="blink">_</span></div>
     <div class="terminal" id="terminal"></div>
 
-    <div class="list">
+    <nav class="list" aria-label="Primary">
       <div class="item" onclick="openView('work')">Work</div>
       <div class="item" onclick="openView('about')">About</div>
       <div class="item" onclick="openView('contact')">Contact</div>
-    </div>
+    </nav>
 
     <div class="external-links">
-      <a href="https://smoggy-hat-23d.notion.site/Computer-Network-by-Ansh-M-11b45ba9ac0d8083b8f1c1c34b57f43c?source=copy_link" target="_blank" rel="noopener noreferrer">Notion</a>
-      <a href="https://open.spotify.com/artist/28EQdYCDh3bNrvD9qedAxj?si=7Lj4ktCoQ6e4ZZGhisZUjQ" target="_blank" rel="noopener noreferrer">Spotify</a>
-      <a href="https://x.com/anshmatlotia" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="https://smoggy-hat-23d.notion.site/Computer-Network-by-Ansh-M-11b45ba9ac0d8083b8f1c1c34b57f43c?source=copy_link"
+         target="_blank" rel="noopener noreferrer" aria-label="Notion profile">Notion</a>
+      <a href="https://open.spotify.com/artist/28EQdYCDh3bNrvD9qedAxj?si=7Lj4ktCoQ6e4ZZGhisZUjQ"
+         target="_blank" rel="noopener noreferrer" aria-label="Spotify profile">Spotify</a>
+      <a href="https://x.com/anshmatlotia"
+         target="_blank" rel="noopener noreferrer" aria-label="X profile">X</a>
     </div>
   </div>
 </div>
@@ -217,10 +240,8 @@ p{
     <div class="back" onclick="goBack()">← Back</div>
     <h2>Contact</h2>
     <p>
-      <a
-        href="mailto:anshmatlotia@gmail.com?subject=Hiring%20Inquiry%20%E2%80%93%20UI%2FUX%20Designer&body=Hi%20Ansh%2C%0A%0AI%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect%20with%20you%20regarding%20a%20potential%20opportunity.%0A%0APlease%20let%20me%20know%20a%20good%20time%20to%20talk.%0A%0ABest%20regards%2C"
-        class="project-link"
-      >
+      <a href="mailto:anshmatlotia@gmail.com?subject=Hiring%20Inquiry%20%E2%80%93%20UI%2FUX%20Designer"
+         class="project-link">
         anshmatlotia@gmail.com →
       </a>
     </p>
@@ -230,6 +251,11 @@ p{
 <div class="custom-cursor hidden" id="cursor"></div>
 
 <script>
+/* Pause animations when tab hidden */
+document.addEventListener('visibilitychange',()=>{
+  document.body.classList.toggle('paused', document.hidden);
+});
+
 /* ---------- NAVIGATION ---------- */
 const stack=['home'];
 const views=document.querySelectorAll('.view');
@@ -272,6 +298,7 @@ let il=0, ic=0;
 /* ---------- PARAGRAPH TYPING ---------- */
 const typed=new Set();
 new MutationObserver(()=>{
+  if(!document.querySelector('.view.active')) return;
   document.querySelectorAll('.view.active [data-type]').forEach(p=>{
     if(typed.has(p)) return;
     typed.add(p);
@@ -291,7 +318,6 @@ new MutationObserver(()=>{
 const cursor=document.getElementById('cursor');
 const isTouch=matchMedia('(hover:none)').matches;
 const disabledViews=['project1','project2'];
-
 let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,enabled=false;
 
 if(!isTouch){
@@ -303,7 +329,6 @@ if(!isTouch){
       enabled=true;
     }
   });
-
   (function loop(){
     cx+=(mx-cx)*0.18;
     cy+=(my-cy)*0.18;
@@ -311,16 +336,11 @@ if(!isTouch){
     cursor.style.top=cy+'px';
     requestAnimationFrame(loop);
   })();
-
   document.addEventListener('mouseover',e=>{
-    if(e.target.closest('a,.item,.back')){
-      cursor.classList.add('active');
-    }
+    if(e.target.closest('a,.item,.back')) cursor.classList.add('active');
   });
   document.addEventListener('mouseout',e=>{
-    if(e.target.closest('a,.item,.back')){
-      cursor.classList.remove('active');
-    }
+    if(e.target.closest('a,.item,.back')) cursor.classList.remove('active');
   });
 }
 
@@ -328,7 +348,6 @@ function updateCursorState(){
   if(isTouch) return;
   const active=document.querySelector('.view.active');
   if(!active) return;
-
   if(disabledViews.includes(active.id)){
     cursor.classList.add('hidden');
     document.body.style.cursor='auto';
