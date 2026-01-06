@@ -12,11 +12,13 @@
   --bg:#0f0f0f;
   --text:#eaeaea;
   --muted:#9a9a9a;
-  --panel:#141414;
 }
 
-/* Selection */
-::selection{background:var(--text);color:var(--bg)}
+/* Inverted text selection */
+::selection{
+  background:var(--text);
+  color:var(--bg);
+}
 
 *{margin:0;padding:0;box-sizing:border-box}
 
@@ -25,96 +27,115 @@ body{
   color:var(--text);
   font-family:'JetBrains Mono', monospace;
   overflow:hidden;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* Views */
+/* View system */
 .view{
   position:fixed;
   inset:0;
-  padding:40px 24px;
+  padding:40px 24px env(safe-area-inset-bottom);
   transform:translateX(100%);
   transition:transform .45s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
 }
 .view.active{transform:translateX(0)}
+
 .container{max-width:900px}
 
-/* Typography */
-.name{font-size:14px;letter-spacing:.08em;margin-bottom:24px}
-.blink{animation:blink 1.6s infinite}
-@keyframes blink{0%,45%{opacity:1}50%,95%{opacity:0}100%{opacity:1}}
+@media(min-width:768px){
+  .view{padding:60px 80px}
+}
 
-.terminal{font-size:13px;color:var(--muted);margin-bottom:40px}
+/* Name + cursor */
+.name{
+  font-size:14px;
+  letter-spacing:.08em;
+  margin-bottom:24px;
+}
+.blink{
+  animation: blinkDash 1.6s infinite;
+}
+@keyframes blinkDash{
+  0%,45%{opacity:1}
+  50%,95%{opacity:0}
+  100%{opacity:1}
+}
 
-.list{display:flex;flex-direction:column;gap:18px}
-.item{font-size:14px;color:var(--muted);cursor:pointer}
+/* Terminal intro */
+.terminal{
+  font-size:13px;
+  line-height:1.6;
+  color:var(--muted);
+  max-width:520px;
+  margin-bottom:40px;
+}
+
+/* Navigation list */
+.list{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+.item{
+  font-size:14px;
+  letter-spacing:.08em;
+  color:var(--muted);
+  cursor:pointer;
+  width:fit-content;
+}
 .item:hover{color:var(--text)}
 
-.back{font-size:13px;color:var(--muted);cursor:pointer;margin-bottom:40px}
-h2{font-size:14px;letter-spacing:.12em;margin-bottom:24px}
-p{font-size:14px;line-height:1.7;color:var(--muted);max-width:560px;text-align:justify}
-
-.project-link{display:block;margin-top:14px;font-size:13px;color:var(--muted);text-decoration:none}
-.project-link:hover{color:var(--text)}
-
-.external-links{margin-top:60px;display:flex;gap:40px;font-size:13px}
-.external-links a{color:var(--muted);text-decoration:none}
-
-/* CONTACT PANEL */
-.contact-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  opacity:0;
-  pointer-events:none;
-  transition:.3s;
-}
-.contact-overlay.active{
-  opacity:1;
-  pointer-events:auto;
-}
-
-.contact-panel{
-  position:fixed;
-  bottom:-100%;
-  left:0;
-  right:0;
-  background:var(--panel);
-  border-radius:18px 18px 0 0;
-  padding:24px;
-  transition:.45s cubic-bezier(.4,0,.2,1);
-}
-.contact-panel.active{bottom:0}
-
-.contact-title{
-  font-size:13px;
-  letter-spacing:.08em;
-  margin-bottom:20px;
-}
-
-.contact-action{
-  padding:14px 0;
-  border-bottom:1px solid #222;
+.back{
   font-size:13px;
   color:var(--muted);
   cursor:pointer;
+  margin-bottom:40px;
 }
-.contact-action:last-child{border:none}
-.contact-action:hover{color:var(--text)}
 
-.toast{
-  position:fixed;
-  bottom:90px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#222;
-  color:#fff;
-  font-size:12px;
-  padding:8px 14px;
-  border-radius:6px;
-  opacity:0;
-  transition:.3s;
+h2{
+  font-size:14px;
+  letter-spacing:.12em;
+  margin-bottom:24px;
 }
-.toast.show{opacity:1}
+
+p{
+  font-size:14px;
+  line-height:1.7;
+  color:var(--muted);
+  max-width:560px;
+  text-align:justify;
+}
+
+/* Links */
+.project-link{
+  display:block;
+  margin-top:14px;
+  font-size:13px;
+  letter-spacing:.08em;
+  color:var(--muted);
+  text-decoration:none;
+}
+.project-link:hover{color:var(--text)}
+
+.external-links{
+  margin-top:60px;
+  display:flex;
+  gap:40px;
+  font-size:13px;
+  letter-spacing:.08em;
+}
+.external-links a{
+  color:var(--muted);
+  text-decoration:none;
+}
+.external-links a:hover{color:var(--text)}
+
+/* Mobile refinement */
+@media(max-width:768px){
+  p{font-size:13px;line-height:1.65}
+  .item{font-size:14px}
+}
 </style>
 </head>
 
@@ -123,13 +144,16 @@ p{font-size:14px;line-height:1.7;color:var(--muted);max-width:560px;text-align:j
 <!-- HOME -->
 <div class="view active" id="home">
   <div class="container">
-    <div class="name">Ansh Matlotia <span class="blink">_</span></div>
+    <div class="name">
+      Ansh Matlotia <span class="blink">_</span>
+    </div>
+
     <div class="terminal" id="terminal"></div>
 
     <div class="list">
       <div class="item" onclick="openView('work')">Work</div>
       <div class="item" onclick="openView('about')">About</div>
-      <div class="item" onclick="openContact()">Contact</div>
+      <div class="item" onclick="openView('contact')">Contact</div>
     </div>
 
     <div class="external-links">
@@ -152,21 +176,31 @@ p{font-size:14px;line-height:1.7;color:var(--muted);max-width:560px;text-align:j
   </div>
 </div>
 
-<!-- PROJECTS -->
+<!-- PROJECT 1 -->
 <div class="view" id="project1">
   <div class="container">
     <div class="back" onclick="goBack()">← Back</div>
     <h2>Elite Marry Me</h2>
-    <p data-type>Elite Marry Me is a premium matrimony platform where I handled full UI/UX—research, flows, wireframes, and interaction design.</p>
+    <p data-type>
+      Elite Marry Me is a premium matrimony platform focused on high-intent,
+      meaningful connections. I worked end-to-end on UI/UX—research, flows,
+      wireframes, and interaction design—balancing trust, clarity, and emotional
+      sensitivity for an elite audience.
+    </p>
     <a class="project-link" href="#">View Live Project →</a>
   </div>
 </div>
 
+<!-- PROJECT 2 -->
 <div class="view" id="project2">
   <div class="container">
     <div class="back" onclick="goBack()">← Back</div>
     <h2>Graphic Work</h2>
-    <p data-type>A collection of branding, typography, and digital graphic projects.</p>
+    <p data-type>
+      A curated selection of graphic design projects exploring visual identity,
+      typography, layout systems, and brand-led storytelling across digital and
+      print mediums.
+    </p>
     <a class="project-link" href="#">LINK 1 →</a>
     <a class="project-link" href="#">LINK 2 →</a>
     <a class="project-link" href="#">LINK 3 →</a>
@@ -178,24 +212,30 @@ p{font-size:14px;line-height:1.7;color:var(--muted);max-width:560px;text-align:j
   <div class="container">
     <div class="back" onclick="goBack()">← Back</div>
     <h2>About</h2>
-    <p data-type>I am a UI/UX Designer focused on clean, purposeful, and human-centered digital experiences.</p>
+    <p data-type>
+      I am a UI/UX Designer focused on crafting clean, intuitive, and purposeful
+      digital experiences. My work blends strong design systems, usability, and
+      thoughtful interaction design to simplify complex ideas into accessible
+      interfaces. I value clarity, restraint, and long-term usability over noise.
+    </p>
   </div>
 </div>
 
-<!-- CONTACT PANEL -->
-<div class="contact-overlay" id="overlay" onclick="closeContact()"></div>
-
-<div class="contact-panel" id="contactPanel">
-  <div class="contact-title">Contact</div>
-  <div class="contact-action" onclick="copyEmail()">Copy Email</div>
-  <div class="contact-action" onclick="location.href='mailto:anshmatlotia@gmail.com'">Send Email</div>
-  <div class="contact-action">LinkedIn (add link)</div>
+<!-- CONTACT -->
+<div class="view" id="contact">
+  <div class="container">
+    <div class="back" onclick="goBack()">← Back</div>
+    <h2>Contact</h2>
+    <p>
+      <a href="mailto:anshmatlotia@gmail.com" class="project-link">
+        anshmatlotia@gmail.com →
+      </a>
+    </p>
+  </div>
 </div>
 
-<div class="toast" id="toast">Email copied</div>
-
 <script>
-/* Navigation */
+/* Navigation stack */
 const stack=['home'];
 function openView(id){
   document.getElementById(stack.at(-1)).classList.remove('active');
@@ -209,33 +249,66 @@ function goBack(){
   }
 }
 
-/* Contact panel */
-function openContact(){
-  document.getElementById('overlay').classList.add('active');
-  document.getElementById('contactPanel').classList.add('active');
-}
-function closeContact(){
-  document.getElementById('overlay').classList.remove('active');
-  document.getElementById('contactPanel').classList.remove('active');
-}
-function copyEmail(){
-  navigator.clipboard.writeText("anshmatlotia@gmail.com");
-  const t=document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),1200);
+/* Swipe back (mobile) */
+let sx=0, sy=0;
+document.addEventListener('touchstart',e=>{
+  sx=e.touches[0].clientX;
+  sy=e.touches[0].clientY;
+});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-sx;
+  const dy=e.changedTouches[0].clientY-sy;
+  if(dx>70 && Math.abs(dx)>Math.abs(dy)) goBack();
+});
+
+/* Terminal intro typing (all devices) */
+const introLines=[
+  "> Hello, I’m Ansh.",
+  "> I design clean, purposeful digital experiences.",
+  "> Tap or scroll to explore."
+];
+const terminal=document.getElementById("terminal");
+let il=0, ic=0;
+(function typeIntro(){
+  if(il>=introLines.length) return;
+  if(ic===0) terminal.appendChild(document.createElement("div"));
+  const lineEl=terminal.lastChild;
+  lineEl.textContent=introLines[il].slice(0,++ic);
+  if(ic===introLines[il].length){
+    il++; ic=0;
+    setTimeout(typeIntro,450);
+  }else{
+    setTimeout(typeIntro,30);
+  }
+})();
+
+/* Paragraph typing (all devices, once per view) */
+function typeParagraph(el,speed){
+  const text=el.textContent.trim();
+  el.textContent="";
+  let i=0;
+  (function type(){
+    if(i<text.length){
+      el.textContent+=text.charAt(i++);
+      setTimeout(type,speed);
+    }
+  })();
 }
 
-/* Intro typing */
-const lines=["> Hello, I’m Ansh.","> UI/UX Designer.","> Tap to explore."];
-const term=document.getElementById("terminal");
-let l=0,c=0;
-(function type(){
-  if(l>=lines.length) return;
-  if(c===0) term.appendChild(document.createElement("div"));
-  term.lastChild.textContent=lines[l].slice(0,++c);
-  if(c===lines[l].length){l++;c=0;setTimeout(type,400)}
-  else setTimeout(type,30);
-})();
+const typed=new Set();
+const observer=new MutationObserver(()=>{
+  document.querySelectorAll('.view.active [data-type]').forEach(p=>{
+    if(!typed.has(p)){
+      typed.add(p);
+      typeParagraph(p, window.innerWidth<768 ? 12 : 18);
+    }
+  });
+});
+observer.observe(document.body,{
+  attributes:true,
+  subtree:true,
+  attributeFilter:['class']
+});
 </script>
 
 </body>
