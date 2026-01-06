@@ -28,7 +28,6 @@ body{
   font-family:'JetBrains Mono', monospace;
   overflow:hidden;
   -webkit-font-smoothing:antialiased;
-  cursor:none;
 }
 
 /* View system */
@@ -138,7 +137,7 @@ p{
   .item{font-size:14px}
 }
 
-/* ---------- CUSTOM TERMINAL CURSOR ---------- */
+/* ---------- CUSTOM TERMINAL CURSOR (REFINED) ---------- */
 .custom-cursor{
   position:fixed;
   width:8px;
@@ -147,25 +146,29 @@ p{
   transform:translate(-50%,-50%);
   pointer-events:none;
   z-index:9999;
-  opacity:.9;
+  opacity:.85;
   animation:caretBlink 1.2s steps(1) infinite;
-  transition:transform .15s cubic-bezier(.22,1,.36,1), opacity .2s ease;
+  transition:
+    transform .15s cubic-bezier(.22,1,.36,1),
+    opacity .2s ease;
 }
+
 @keyframes caretBlink{
   0%,50%,100%{opacity:1}
   25%,75%{opacity:.25}
 }
+
 .custom-cursor.active{
   transform:translate(-50%,-50%) scale(1.6);
   opacity:.5;
 }
+
 .custom-cursor.hidden{
   opacity:0;
 }
 
 /* Disable custom cursor on touch devices */
 @media (hover:none){
-  body{cursor:auto}
   .custom-cursor{display:none}
 }
 </style>
@@ -190,7 +193,7 @@ p{
 
     <div class="external-links">
       <a href="https://smoggy-hat-23d.notion.site/Computer-Network-by-Ansh-M-11b45ba9ac0d8083b8f1c1c34b57f43c?source=copy_link" target="_blank" rel="noopener noreferrer">Notion</a>
-      <a href="https://open.spotify.com/artist/28EQdYCDh3bNrvD9qedAxj?si=7Lj4ktCoQ6e4ZZGhisZUjQ" target="_blank" rel="noopener noreferrer">Spotify</a>
+      <a href="https://open.spotify.com/artist/28EQdYCDh3bNrvD9qedAxj" target="_blank" rel="noopener noreferrer">Spotify</a>
       <a href="https://x.com/anshmatlotia" target="_blank" rel="noopener noreferrer">X</a>
     </div>
   </div>
@@ -312,8 +315,7 @@ let il=0, ic=0;
 (function typeIntro(){
   if(il>=introLines.length) return;
   if(ic===0) terminal.appendChild(document.createElement("div"));
-  const lineEl=terminal.lastChild;
-  lineEl.textContent=introLines[il].slice(0,++ic);
+  terminal.lastChild.textContent=introLines[il].slice(0,++ic);
   if(ic===introLines[il].length){
     il++; ic=0;
     setTimeout(typeIntro,450);
@@ -335,68 +337,64 @@ function typeParagraph(el,speed){
   })();
 }
 const typed=new Set();
-const observer=new MutationObserver(()=>{
+new MutationObserver(()=>{
   document.querySelectorAll('.view.active [data-type]').forEach(p=>{
     if(!typed.has(p)){
       typed.add(p);
       typeParagraph(p, window.innerWidth<768 ? 12 : 18);
     }
   });
-});
-observer.observe(document.body,{
-  attributes:true,
-  subtree:true,
-  attributeFilter:['class']
-});
+}).observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
 
-/* ---------- CURSOR LOGIC ---------- */
+/* ---------- FIXED CUSTOM CURSOR LOGIC ---------- */
 const cursor=document.getElementById('cursor');
-let mx=0,my=0,cx=0,cy=0;
+const isTouch=window.matchMedia('(hover:none)').matches;
+let mx=window.innerWidth/2,my=window.innerHeight/2,cx=mx,cy=my,enabled=false;
 
-function animateCursor(){
-  cx+=(mx-cx)*0.18;
-  cy+=(my-cy)*0.18;
-  cursor.style.left=cx+'px';
-  cursor.style.top=cy+'px';
-  requestAnimationFrame(animateCursor);
+if(!isTouch){
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    if(!enabled){
+      cursor.classList.remove('hidden');
+      document.body.style.cursor='none';
+      enabled=true;
+    }
+  });
+
+  function animateCursor(){
+    cx+=(mx-cx)*0.2;
+    cy+=(my-cy)*0.2;
+    cursor.style.left=cx+'px';
+    cursor.style.top=cy+'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  document.querySelectorAll('a,.item,.back').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      cursor.classList.add('active');
+      const r=el.getBoundingClientRect();
+      mx=r.left+r.width/2;
+      my=r.top+r.height/2;
+    });
+    el.addEventListener('mouseleave',()=>{
+      cursor.classList.remove('active');
+    });
+  });
 }
-animateCursor();
-
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX; my=e.clientY;
-  cursor.classList.remove('hidden');
-});
-
-document.querySelectorAll('a,.item,.back').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{
-    cursor.classList.add('active');
-    const r=el.getBoundingClientRect();
-    mx=r.left+r.width/2;
-    my=r.top+r.height/2;
-  });
-  el.addEventListener('mouseleave',()=>{
-    cursor.classList.remove('active');
-  });
-});
 
 /* Disable cursor on project pages */
 const projectViews=['project1','project2'];
-const cursorObserver=new MutationObserver(()=>{
+new MutationObserver(()=>{
   const active=document.querySelector('.view.active');
-  if(!active) return;
+  if(!active || isTouch) return;
   if(projectViews.includes(active.id)){
     cursor.classList.add('hidden');
     document.body.style.cursor='auto';
   }else{
-    cursor.classList.remove('hidden');
     document.body.style.cursor='none';
   }
-});
-cursorObserver.observe(document.body,{
-  attributes:true,
-  subtree:true,
-  attributeFilter:['class']
-});
+}).observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
 </script>
 
 </body>
