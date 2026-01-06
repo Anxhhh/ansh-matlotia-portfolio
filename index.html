@@ -8,8 +8,10 @@
 <meta name="description" content="Portfolio of Ansh Matlotia, UI/UX Designer focused on clean, purposeful digital experiences and interface design.">
 <link rel="canonical" href="https://yourdomain.com/">
 
+<!-- Performance: font preconnect -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
@@ -30,10 +32,18 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
+/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
-  *{animation:none!important;transition:none!important}
+  *{
+    animation:none !important;
+    transition:none !important;
+  }
 }
-.paused *{animation-play-state:paused!important}
+
+/* Pause animations when tab inactive */
+.paused *{
+  animation-play-state: paused !important;
+}
 
 /* ---------- VIEW SYSTEM ---------- */
 .view{
@@ -115,32 +125,7 @@ p{
   p{font-size:13px;line-height:1.65}
 }
 
-/* ---------- CHATBOT ---------- */
-.chatbot{
-  margin-top:40px;
-  max-width:560px;
-  font-size:13px;
-}
-.chat-log{
-  color:var(--muted);
-  line-height:1.6;
-  max-height:220px;
-  overflow-y:auto;
-  margin-bottom:12px;
-}
-.chat-line{margin-bottom:6px}
-.chat-input{
-  width:100%;
-  background:none;
-  border:none;
-  outline:none;
-  color:var(--text);
-  font-family:'JetBrains Mono', monospace;
-  font-size:13px;
-}
-.chat-input::placeholder{color:var(--muted)}
-
-/* ---------- CURSOR ---------- */
+/* ---------- CUSTOM CURSOR ---------- */
 .custom-cursor{
   position:fixed;
   width:7px;
@@ -180,38 +165,12 @@ p{
     </nav>
 
     <div class="external-links">
-      <a href="https://smoggy-hat-23d.notion.site/Computer-Network-by-Ansh-M-11b45ba9ac0d8083b8f1c1c34b57f43c?source=copy_link" target="_blank" rel="noopener">Notion</a>
-      <a href="https://open.spotify.com/artist/28EQdYCDh3bNrvD9qedAxj?si=7Lj4ktCoQ6e4ZZGhisZUjQ" target="_blank" rel="noopener">Spotify</a>
-      <a href="https://x.com/anshmatlotia" target="_blank" rel="noopener">X</a>
-    </div>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<div class="view" id="about">
-  <div class="container">
-    <div class="back" onclick="goBack()">← Back</div>
-    <h2>About</h2>
-
-    <p data-type>
-      I am a UI/UX Designer focused on crafting clean, intuitive, and purposeful
-      digital experiences. My work blends strong design systems, usability, and
-      thoughtful interaction design to simplify complex ideas into accessible
-      interfaces. I value clarity, restraint, and long-term usability over noise.
-    </p>
-
-    <!-- CHATBOT -->
-    <div class="chatbot">
-      <div class="chat-log" id="chatLog">
-        <div class="chat-line">> ask me anything about my work</div>
-      </div>
-      <input
-        class="chat-input"
-        id="chatInput"
-        type="text"
-        placeholder="> type a question and press enter"
-        autocomplete="off"
-      />
+      <a href="https://smoggy-hat-23d.notion.site/Computer-Network-by-Ansh-M-11b45ba9ac0d8083b8f1c1c34b57f43c?source=copy_link"
+         target="_blank" rel="noopener noreferrer" aria-label="Notion profile">Notion</a>
+      <a href="https://open.spotify.com/artist/28EQdYCDh3bNrvD9qedAxj?si=7Lj4ktCoQ6e4ZZGhisZUjQ"
+         target="_blank" rel="noopener noreferrer" aria-label="Spotify profile">Spotify</a>
+      <a href="https://x.com/anshmatlotia"
+         target="_blank" rel="noopener noreferrer" aria-label="X profile">X</a>
     </div>
   </div>
 </div>
@@ -228,45 +187,175 @@ p{
   </div>
 </div>
 
-<!-- PROJECTS, CONTACT (UNCHANGED) -->
-<!-- … rest of your existing sections remain exactly the same … -->
+<!-- PROJECT 1 -->
+<div class="view" id="project1">
+  <div class="container">
+    <div class="back" onclick="goBack()">← Back</div>
+    <h2>Elite Marry Me</h2>
+    <p data-type>
+      Elite Marry Me is a premium matrimony platform focused on high-intent,
+      meaningful connections. I worked end-to-end on UI/UX—research, flows,
+      wireframes, and interaction design—balancing trust, clarity, and emotional
+      sensitivity for an elite audience.
+    </p>
+    <a class="project-link" href="https://elitemarryme.com/" target="_blank" rel="noopener noreferrer">
+      View Live Project →
+    </a>
+  </div>
+</div>
+
+<!-- PROJECT 2 -->
+<div class="view" id="project2">
+  <div class="container">
+    <div class="back" onclick="goBack()">← Back</div>
+    <h2>Graphic Work</h2>
+    <p data-type>
+      A curated selection of graphic design projects exploring visual identity,
+      typography, layout systems, and brand-led storytelling across digital and
+      print mediums.
+    </p>
+    <a class="project-link" href="https://www.figma.com/design/31bzfx5Na0FMGUpMNc6UQb/Card-Final?node-id=0-1&t=iCP2sYufigYYn0zv-1" target="_blank" rel="noopener noreferrer">Invitation Card Design →</a>
+    <a class="project-link" href="https://www.figma.com/design/EVXEdvxdBJheSfxT7zVWHw/-newzradar?node-id=0-1&t=NVpxBk7imKTIaEmS-1" target="_blank" rel="noopener noreferrer">E-News pamphlets →</a>
+    <a class="project-link" href="https://www.figma.com/design/IdJk0x6C32wNSXAxuxC38q/freelance-3?node-id=0-1&t=09eOFeqtQG8SClaE-1" target="_blank" rel="noopener noreferrer">Freelancing Project →</a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="view" id="about">
+  <div class="container">
+    <div class="back" onclick="goBack()">← Back</div>
+    <h2>About</h2>
+    <p data-type>
+      I am a UI/UX Designer focused on crafting clean, intuitive, and purposeful
+      digital experiences. My work blends strong design systems, usability, and
+      thoughtful interaction design to simplify complex ideas into accessible
+      interfaces. I value clarity, restraint, and long-term usability over noise.
+    </p>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="view" id="contact">
+  <div class="container">
+    <div class="back" onclick="goBack()">← Back</div>
+    <h2>Contact</h2>
+    <p>
+      <a href="mailto:anshmatlotia@gmail.com?subject=Hiring%20Inquiry%20%E2%80%93%20UI%2FUX%20Designer"
+         class="project-link">
+        anshmatlotia@gmail.com →
+      </a>
+    </p>
+  </div>
+</div>
 
 <div class="custom-cursor hidden" id="cursor"></div>
 
 <script>
+/* Pause animations when tab hidden */
 document.addEventListener('visibilitychange',()=>{
-  document.body.classList.toggle('paused',document.hidden);
+  document.body.classList.toggle('paused', document.hidden);
 });
 
-/* ---------- CHATBOT LOGIC ---------- */
-const chatInput=document.getElementById('chatInput');
-const chatLog=document.getElementById('chatLog');
+/* ---------- NAVIGATION ---------- */
+const stack=['home'];
+const views=document.querySelectorAll('.view');
 
-const knowledgeBase=[
-  {k:['who','about'],a:'I am Ansh Matlotia, a UI/UX Designer focused on clean, purposeful digital experiences.'},
-  {k:['project','work'],a:'I’ve worked on Elite Marry Me and multiple graphic design and branding projects.'},
-  {k:['skills','tools'],a:'My skills include UI design, UX research, interaction design, design systems, and Figma.'},
-  {k:['philosophy','approach'],a:'I believe in clarity, restraint, and long-term usability over visual noise.'},
-  {k:['hire','contact'],a:'You can reach me at anshmatlotia@gmail.com for collaborations or opportunities.'}
-];
-
-function reply(q){
-  q=q.toLowerCase();
-  for(const i of knowledgeBase){
-    if(i.k.some(k=>q.includes(k))) return i.a;
+function openView(id){
+  views.forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  stack.push(id);
+  updateCursorState();
+}
+function goBack(){
+  if(stack.length>1){
+    stack.pop();
+    views.forEach(v=>v.classList.remove('active'));
+    document.getElementById(stack[stack.length-1]).classList.add('active');
+    updateCursorState();
   }
-  return 'I can answer questions related to my work, skills, projects, or design philosophy.';
 }
 
-chatInput.addEventListener('keydown',e=>{
-  if(e.key==='Enter' && chatInput.value.trim()){
-    const q=chatInput.value.trim();
-    chatLog.innerHTML+=`<div class="chat-line">> ${q}</div>`;
-    chatLog.innerHTML+=`<div class="chat-line">${reply(q)}</div>`;
-    chatLog.scrollTop=chatLog.scrollHeight;
-    chatInput.value='';
+/* ---------- TERMINAL INTRO ---------- */
+const introLines=[
+  "> Hello, I’m Ansh.",
+  "> I design clean, purposeful digital experiences.",
+  "> Tap or scroll to explore."
+];
+const terminal=document.getElementById("terminal");
+let il=0, ic=0;
+(function typeIntro(){
+  if(il>=introLines.length) return;
+  if(ic===0) terminal.appendChild(document.createElement("div"));
+  terminal.lastChild.textContent=introLines[il].slice(0,++ic);
+  if(ic===introLines[il].length){
+    il++; ic=0;
+    setTimeout(typeIntro,450);
+  }else{
+    setTimeout(typeIntro,30);
   }
-});
+})();
+
+/* ---------- PARAGRAPH TYPING ---------- */
+const typed=new Set();
+new MutationObserver(()=>{
+  if(!document.querySelector('.view.active')) return;
+  document.querySelectorAll('.view.active [data-type]').forEach(p=>{
+    if(typed.has(p)) return;
+    typed.add(p);
+    const text=p.textContent.trim();
+    p.textContent="";
+    let i=0;
+    (function t(){
+      if(i<text.length){
+        p.textContent+=text.charAt(i++);
+        setTimeout(t, window.innerWidth<768 ? 12 : 18);
+      }
+    })();
+  });
+}).observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
+
+/* ---------- CURSOR ---------- */
+const cursor=document.getElementById('cursor');
+const isTouch=matchMedia('(hover:none)').matches;
+const disabledViews=['project1','project2'];
+let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,enabled=false;
+
+if(!isTouch){
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    if(!enabled){
+      cursor.classList.remove('hidden');
+      document.body.style.cursor='none';
+      enabled=true;
+    }
+  });
+  (function loop(){
+    cx+=(mx-cx)*0.18;
+    cy+=(my-cy)*0.18;
+    cursor.style.left=cx+'px';
+    cursor.style.top=cy+'px';
+    requestAnimationFrame(loop);
+  })();
+  document.addEventListener('mouseover',e=>{
+    if(e.target.closest('a,.item,.back')) cursor.classList.add('active');
+  });
+  document.addEventListener('mouseout',e=>{
+    if(e.target.closest('a,.item,.back')) cursor.classList.remove('active');
+  });
+}
+
+function updateCursorState(){
+  if(isTouch) return;
+  const active=document.querySelector('.view.active');
+  if(!active) return;
+  if(disabledViews.includes(active.id)){
+    cursor.classList.add('hidden');
+    document.body.style.cursor='auto';
+  }else{
+    cursor.classList.remove('hidden');
+    document.body.style.cursor='none';
+  }
+}
 </script>
 
 </body>
