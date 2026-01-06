@@ -147,6 +147,40 @@ p{
 @media (hover:none){
   .custom-cursor{display:none}
 }
+
+/* ---------- CHATBOT (DEMO) ---------- */
+.chatbot{
+  margin-top:40px;
+  max-width:560px;
+  font-size:13px;
+}
+
+.chat-log{
+  color:var(--muted);
+  line-height:1.6;
+  max-height:220px;
+  overflow-y:auto;
+  margin-bottom:12px;
+}
+
+.chat-line{
+  margin-bottom:6px;
+}
+
+.chat-input{
+  width:100%;
+  background:none;
+  border:none;
+  outline:none;
+  color:var(--text);
+  font-family:'JetBrains Mono', monospace;
+  font-size:13px;
+}
+
+.chat-input::placeholder{
+  color:var(--muted);
+}
+
 </style>
 </head>
 
@@ -232,6 +266,19 @@ p{
       interfaces. I value clarity, restraint, and long-term usability over noise.
     </p>
   </div>
+</div>
+
+<div class="chatbot">
+  <div class="chat-log" id="chatLog">
+    <div class="chat-line">> ask me anything about my work</div>
+  </div>
+  <input
+    class="chat-input"
+    id="chatInput"
+    type="text"
+    placeholder="> type a question and press enter"
+    autocomplete="off"
+  />
 </div>
 
 <!-- CONTACT -->
@@ -356,6 +403,62 @@ function updateCursorState(){
     document.body.style.cursor='none';
   }
 }
+/* ---------- CHATBOT DEMO LOGIC ---------- */
+const chatInput = document.getElementById('chatInput');
+const chatLog = document.getElementById('chatLog');
+
+const knowledgeBase = [
+  {
+    keywords: ['who are you', 'about you'],
+    answer: 'I am Ansh Matlotia, a UI/UX Designer focused on clean, purposeful digital experiences.'
+  },
+  {
+    keywords: ['projects', 'work'],
+    answer: 'I’ve worked on Elite Marry Me (UI/UX design) and multiple graphic design and branding projects across digital and print.'
+  },
+  {
+    keywords: ['skills', 'tools'],
+    answer: 'My core skills include UI design, UX research, interaction design, design systems, and Figma.'
+  },
+  {
+    keywords: ['design philosophy', 'approach'],
+    answer: 'I believe in clarity, restraint, and long-term usability over visual noise.'
+  },
+  {
+    keywords: ['contact', 'hire'],
+    answer: 'You can reach me via email at anshmatlotia@gmail.com for collaborations or opportunities.'
+  }
+];
+
+function getResponse(input){
+  const text = input.toLowerCase();
+  for(const item of knowledgeBase){
+    if(item.keywords.some(k => text.includes(k))){
+      return item.answer;
+    }
+  }
+  return 'That’s a good question. I can answer things related to my work, skills, projects, or design philosophy.';
+}
+
+chatInput.addEventListener('keydown', e => {
+  if(e.key === 'Enter' && chatInput.value.trim()){
+    const userText = chatInput.value.trim();
+
+    const userLine = document.createElement('div');
+    userLine.className = 'chat-line';
+    userLine.textContent = `> ${userText}`;
+    chatLog.appendChild(userLine);
+
+    const botLine = document.createElement('div');
+    botLine.className = 'chat-line';
+    botLine.textContent = getResponse(userText);
+    chatLog.appendChild(botLine);
+
+    chatLog.scrollTop = chatLog.scrollHeight;
+    chatInput.value = '';
+  }
+});
+
 </script>
 
 </body>
