@@ -14,6 +14,7 @@
   --muted:#9a9a9a;
 }
 
+/* Selection */
 ::selection{
   background:var(--text);
   color:var(--bg);
@@ -52,7 +53,7 @@ body{
   margin-bottom:24px;
 }
 .blink{
-  animation:blinkDash 1.6s infinite;
+  animation: blinkDash 1.6s infinite;
 }
 @keyframes blinkDash{
   0%,45%{opacity:1}
@@ -103,6 +104,7 @@ p{
   text-align:justify;
 }
 
+/* Links */
 .project-link{
   display:block;
   margin-top:14px;
@@ -118,15 +120,17 @@ p{
   display:flex;
   gap:40px;
   font-size:13px;
+  letter-spacing:.08em;
 }
 .external-links a{
   color:var(--muted);
   text-decoration:none;
 }
+.external-links a:hover{color:var(--text)}
 
-/* ---------- MOBILE ---------- */
+/* Mobile */
 @media(max-width:768px){
-  p{font-size:13px}
+  p{font-size:13px;line-height:1.65}
 }
 
 /* ---------- CUSTOM CURSOR (STABLE) ---------- */
@@ -159,7 +163,10 @@ p{
 <!-- HOME -->
 <div class="view active" id="home">
   <div class="container">
-    <div class="name">Ansh Matlotia <span class="blink">_</span></div>
+    <div class="name">
+      Ansh Matlotia <span class="blink">_</span>
+    </div>
+
     <div class="terminal" id="terminal"></div>
 
     <div class="list">
@@ -169,9 +176,9 @@ p{
     </div>
 
     <div class="external-links">
-      <a href="https://smoggy-hat-23d.notion.site" target="_blank">Notion</a>
-      <a href="https://open.spotify.com" target="_blank">Spotify</a>
-      <a href="https://x.com/anshmatlotia" target="_blank">X</a>
+      <a href="https://smoggy-hat-23d.notion.site/Computer-Network-by-Ansh-M-11b45ba9ac0d8083b8f1c1c34b57f43c?source=copy_link" target="_blank" rel="noopener noreferrer">Notion</a>
+      <a href="https://open.spotify.com/artist/28EQdYCDh3bNrvD9qedAxj?si=7Lj4ktCoQ6e4ZZGhisZUjQ" target="_blank" rel="noopener noreferrer">Spotify</a>
+      <a href="https://x.com/anshmatlotia" target="_blank" rel="noopener noreferrer">X</a>
     </div>
   </div>
 </div>
@@ -195,9 +202,11 @@ p{
     <h2>Elite Marry Me</h2>
     <p data-type>
       Elite Marry Me is a premium matrimony platform focused on high-intent,
-      meaningful connections. I handled complete UI/UX design.
+      meaningful connections. I worked end-to-end on UI/UX—research, flows,
+      wireframes, and interaction design—balancing trust, clarity, and emotional
+      sensitivity for an elite audience.
     </p>
-    <a class="project-link" href="https://elitemarryme.com" target="_blank">
+    <a class="project-link" href="https://elitemarryme.com/" target="_blank" rel="noopener noreferrer">
       View Live Project →
     </a>
   </div>
@@ -209,8 +218,13 @@ p{
     <div class="back" onclick="goBack()">← Back</div>
     <h2>Graphic Work</h2>
     <p data-type>
-      A collection of graphic and brand design projects across digital and print.
+      A curated selection of graphic design projects exploring visual identity,
+      typography, layout systems, and brand-led storytelling across digital and
+      print mediums.
     </p>
+    <a class="project-link" href="https://www.figma.com/design/31bzfx5Na0FMGUpMNc6UQb/Card-Final?node-id=0-1&t=iCP2sYufigYYn0zv-1" target="_blank" rel="noopener noreferrer">Invitation Card Design →</a>
+    <a class="project-link" href="https://www.figma.com/design/EVXEdvxdBJheSfxT7zVWHw/-newzradar?node-id=0-1&t=NVpxBk7imKTIaEmS-1" target="_blank" rel="noopener noreferrer">E-News pamphlets →</a>
+    <a class="project-link" href="https://www.figma.com/design/IdJk0x6C32wNSXAxuxC38q/freelance-3?node-id=0-1&t=09eOFeqtQG8SClaE-1" target="_blank" rel="noopener noreferrer">Freelancing Project →</a>
   </div>
 </div>
 
@@ -220,8 +234,10 @@ p{
     <div class="back" onclick="goBack()">← Back</div>
     <h2>About</h2>
     <p data-type>
-      I am a UI/UX Designer focused on clean, purposeful, and long-term usable
-      digital experiences.
+      I am a UI/UX Designer focused on crafting clean, intuitive, and purposeful
+      digital experiences. My work blends strong design systems, usability, and
+      thoughtful interaction design to simplify complex ideas into accessible
+      interfaces. I value clarity, restraint, and long-term usability over noise.
     </p>
   </div>
 </div>
@@ -233,8 +249,9 @@ p{
     <h2>Contact</h2>
     <p>
       <a
-        href="mailto:anshmatlotia@gmail.com?subject=Hiring%20Inquiry%20–%20UI/UX%20Designer"
-        class="project-link">
+        href="mailto:anshmatlotia@gmail.com?subject=Hiring%20Inquiry%20%E2%80%93%20UI%2FUX%20Designer&body=Hi%20Ansh%2C%0A%0AI%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect%20with%20you%20regarding%20a%20potential%20opportunity.%0A%0APlease%20let%20me%20know%20a%20good%20time%20to%20talk.%0A%0ABest%20regards%2C"
+        class="project-link"
+      >
         anshmatlotia@gmail.com →
       </a>
     </p>
@@ -262,22 +279,26 @@ function goBack(){
 }
 
 /* ---------- TERMINAL INTRO ---------- */
-const lines=[
+const introLines=[
   "> Hello, I’m Ansh.",
-  "> I design clean digital experiences.",
+  "> I design clean, purposeful digital experiences.",
   "> Tap or scroll to explore."
 ];
 const terminal=document.getElementById("terminal");
-let l=0,c=0;
-(function type(){
-  if(l>=lines.length) return;
-  if(c===0) terminal.appendChild(document.createElement("div"));
-  terminal.lastChild.textContent=lines[l].slice(0,++c);
-  if(c===lines[l].length){l++;c=0;setTimeout(type,400)}
-  else setTimeout(type,30);
+let il=0, ic=0;
+(function typeIntro(){
+  if(il>=introLines.length) return;
+  if(ic===0) terminal.appendChild(document.createElement("div"));
+  terminal.lastChild.textContent=introLines[il].slice(0,++ic);
+  if(ic===introLines[il].length){
+    il++; ic=0;
+    setTimeout(typeIntro,450);
+  }else{
+    setTimeout(typeIntro,30);
+  }
 })();
 
-/* ---------- PARAGRAPH TYPE ---------- */
+/* ---------- PARAGRAPH TYPING ---------- */
 const typed=new Set();
 new MutationObserver(()=>{
   document.querySelectorAll('.view.active [data-type]').forEach(p=>{
@@ -289,27 +310,27 @@ new MutationObserver(()=>{
       (function t(){
         if(i<text.length){
           p.textContent+=text.charAt(i++);
-          setTimeout(t,14);
+          setTimeout(t, window.innerWidth<768 ? 12 : 18);
         }
       })();
     }
   });
 }).observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
 
-/* ---------- CURSOR (BULLETPROOF) ---------- */
+/* ---------- CURSOR (STABLE) ---------- */
 const cursor=document.getElementById('cursor');
 const isTouch=matchMedia('(hover:none)').matches;
 const disabledViews=['project1','project2'];
-let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,active=false;
+
+let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,enabled=false;
 
 if(!isTouch){
-  document.body.style.cursor='none';
-
   document.addEventListener('mousemove',e=>{
     mx=e.clientX; my=e.clientY;
-    if(!active){
+    if(!enabled){
       cursor.classList.remove('hidden');
-      active=true;
+      document.body.style.cursor='none';
+      enabled=true;
     }
   });
 
@@ -336,10 +357,10 @@ if(!isTouch){
 
 function updateCursorState(){
   if(isTouch) return;
-  const activeView=document.querySelector('.view.active');
-  if(!activeView) return;
+  const active=document.querySelector('.view.active');
+  if(!active) return;
 
-  if(disabledViews.includes(activeView.id)){
+  if(disabledViews.includes(active.id)){
     cursor.classList.add('hidden');
     document.body.style.cursor='auto';
   }else{
