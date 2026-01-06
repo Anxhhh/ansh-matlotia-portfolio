@@ -346,55 +346,81 @@ new MutationObserver(()=>{
   });
 }).observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
 
-/* ---------- FIXED CUSTOM CURSOR LOGIC ---------- */
-const cursor=document.getElementById('cursor');
-const isTouch=window.matchMedia('(hover:none)').matches;
-let mx=window.innerWidth/2,my=window.innerHeight/2,cx=mx,cy=my,enabled=false;
+/* ---------- FIXED & REFINED CUSTOM CURSOR LOGIC ---------- */
+const cursor = document.getElementById('cursor');
+const isTouch = window.matchMedia('(hover:none)').matches;
 
-if(!isTouch){
-  document.addEventListener('mousemove',e=>{
-    mx=e.clientX; my=e.clientY;
-    if(!enabled){
+let mx = window.innerWidth / 2;
+let my = window.innerHeight / 2;
+let cx = mx;
+let cy = my;
+let enabled = false;
+
+if (!isTouch) {
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+
+    if (!enabled) {
       cursor.classList.remove('hidden');
-      document.body.style.cursor='none';
-      enabled=true;
+      document.body.style.cursor = 'none';
+      enabled = true;
     }
   });
 
-  function animateCursor(){
-    cx+=(mx-cx)*0.2;
-    cy+=(my-cy)*0.2;
-    cursor.style.left=cx+'px';
-    cursor.style.top=cy+'px';
+  function animateCursor() {
+    cx += (mx - cx) * 0.2;
+    cy += (my - cy) * 0.2;
+    cursor.style.left = cx + 'px';
+    cursor.style.top = cy + 'px';
     requestAnimationFrame(animateCursor);
   }
   animateCursor();
 
-  document.querySelectorAll('a,.item,.back').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{
+  /* Magnetic pull ONLY for links and back button */
+  document.querySelectorAll('a, .back').forEach(el => {
+    el.addEventListener('mouseenter', () => {
       cursor.classList.add('active');
-      const r=el.getBoundingClientRect();
-      mx=r.left+r.width/2;
-      my=r.top+r.height/2;
+      const r = el.getBoundingClientRect();
+      mx = r.left + r.width / 2;
+      my = r.top + r.height / 2;
     });
-    el.addEventListener('mouseleave',()=>{
+    el.addEventListener('mouseleave', () => {
+      cursor.classList.remove('active');
+    });
+  });
+
+  /* Work list items: hover feedback only (NO snapping) */
+  document.querySelectorAll('.item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.classList.add('active');
+    });
+    el.addEventListener('mouseleave', () => {
       cursor.classList.remove('active');
     });
   });
 }
 
-/* Disable cursor on project pages */
-const projectViews=['project1','project2'];
-new MutationObserver(()=>{
-  const active=document.querySelector('.view.active');
-  if(!active || isTouch) return;
-  if(projectViews.includes(active.id)){
+/* Disable custom cursor on project pages */
+const projectViews = ['project1', 'project2'];
+
+new MutationObserver(() => {
+  const active = document.querySelector('.view.active');
+  if (!active || isTouch) return;
+
+  if (projectViews.includes(active.id)) {
     cursor.classList.add('hidden');
-    document.body.style.cursor='auto';
-  }else{
-    document.body.style.cursor='none';
+    document.body.style.cursor = 'auto';
+  } else {
+    cursor.classList.remove('hidden');
+    document.body.style.cursor = 'none';
   }
-}).observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
+}).observe(document.body, {
+  attributes: true,
+  subtree: true,
+  attributeFilter: ['class']
+});
+
 </script>
 
 </body>
