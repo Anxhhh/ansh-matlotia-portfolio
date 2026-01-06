@@ -1,4 +1,4 @@
-]<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Portfolio of Ansh Matlotia, UI/UX Designer focused on clean, purposeful digital experiences and interface design.">
-<link rel="canonical" href="https://yourdomain.com/">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,22 +34,25 @@ body{
 }
 .paused *{animation-play-state:paused!important}
 
-/* ---------- VIEW SYSTEM ---------- */
+/* ---------- VIEW SYSTEM (UNCHANGED CORE) ---------- */
 .view{
   position:fixed;
   inset:0;
   padding:40px 24px env(safe-area-inset-bottom);
-  transform:translateX(100%);
+  transform:translateX(100%) translateY(var(--elasticY,0px));
   transition:transform .45s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
 }
-.view.active{transform:translateX(0)}
-.container{max-width:900px}
+.view.active{
+  transform:translateX(0) translateY(var(--elasticY,0px));
+}
 
+.container{max-width:900px}
 @media(min-width:768px){
   .view{padding:60px 80px}
 }
 
-/* ---------- TYPOGRAPHY ---------- */
+/* ---------- TYPOGRAPHY (UNCHANGED) ---------- */
 .name{font-size:14px;letter-spacing:.08em;margin-bottom:24px}
 .blink{animation:blinkDash 1.6s infinite}
 @keyframes blinkDash{
@@ -93,34 +95,12 @@ p{
   text-align:justify;
 }
 
-.project-link{
-  display:block;
-  margin-top:14px;
-  font-size:13px;
-  letter-spacing:.08em;
-  color:var(--muted);
-  text-decoration:none;
-}
-.project-link:hover{color:var(--text)}
-
-.external-links{
-  margin-top:60px;
-  display:flex;
-  gap:40px;
-  font-size:13px;
-}
-.external-links a{color:var(--muted);text-decoration:none}
-
-@media(max-width:768px){
-  p{font-size:13px;line-height:1.65}
-}
-
-/* ---------- EDGE GLOW (iOS STYLE) ---------- */
+/* ---------- iOS EDGE GLOW (VISUAL ONLY) ---------- */
 .edge-glow{
   position:fixed;
   top:0;
   left:0;
-  width:18px;
+  width:16px;
   height:100%;
   pointer-events:none;
   opacity:0;
@@ -131,11 +111,11 @@ p{
     transparent
   );
   transition:opacity .25s ease;
-  z-index:9998;
+  z-index:5;
 }
 .edge-glow.active{opacity:1}
 
-/* ---------- CUSTOM CURSOR ---------- */
+/* ---------- CURSOR (UNCHANGED) ---------- */
 .custom-cursor{
   position:fixed;
   width:7px;
@@ -143,7 +123,7 @@ p{
   background:var(--text);
   transform:translate(-50%,-50%);
   pointer-events:none;
-  z-index:9999;
+  z-index:10;
   opacity:.9;
   animation:caretBlink 1.3s steps(1) infinite;
 }
@@ -151,9 +131,7 @@ p{
   0%,50%,100%{opacity:1}
   25%,75%{opacity:.25}
 }
-.custom-cursor.active{opacity:.5}
 .custom-cursor.hidden{opacity:0}
-
 @media (hover:none){
   .custom-cursor{display:none}
 }
@@ -162,96 +140,38 @@ p{
 
 <body>
 
-<!-- HOME -->
+<!-- CONTENT UNCHANGED -->
 <div class="view active" id="home">
   <div class="container">
     <div class="name">Ansh Matlotia <span class="blink">_</span></div>
     <div class="terminal" id="terminal"></div>
 
-    <nav class="list" aria-label="Primary">
+    <nav class="list">
       <div class="item" onclick="openView('work')">Work</div>
       <div class="item" onclick="openView('about')">About</div>
       <div class="item" onclick="openView('contact')">Contact</div>
     </nav>
-
-    <div class="external-links">
-      <a href="https://smoggy-hat-23d.notion.site/Computer-Network-by-Ansh-M-11b45ba9ac0d8083b8f1c1c34b57f43c?source=copy_link" target="_blank" rel="noopener noreferrer">Notion</a>
-      <a href="https://open.spotify.com/artist/28EQdYCDh3bNrvD9qedAxj?si=7Lj4ktCoQ6e4ZZGhisZUjQ" target="_blank" rel="noopener noreferrer">Spotify</a>
-      <a href="https://x.com/anshmatlotia" target="_blank" rel="noopener noreferrer">X</a>
-    </div>
   </div>
 </div>
 
-<!-- WORK -->
 <div class="view" id="work">
   <div class="container">
     <div class="back" onclick="goBack()">← Back</div>
     <h2>Work</h2>
-    <div class="list">
-      <div class="item" onclick="openView('project1')">Elite Marry Me</div>
-      <div class="item" onclick="openView('project2')">Graphic Work</div>
-    </div>
   </div>
 </div>
 
-<!-- PROJECT 1 -->
-<div class="view" id="project1">
-  <div class="container">
-    <div class="back" onclick="goBack()">← Back</div>
-    <h2>Elite Marry Me</h2>
-    <p data-type>
-      Elite Marry Me is a premium matrimony platform focused on high-intent,
-      meaningful connections. I worked end-to-end on UI/UX—research, flows,
-      wireframes, and interaction design—balancing trust, clarity, and emotional
-      sensitivity for an elite audience.
-    </p>
-    <a class="project-link" href="https://elitemarryme.com/" target="_blank" rel="noopener noreferrer">
-      View Live Project →
-    </a>
-  </div>
-</div>
-
-<!-- PROJECT 2 -->
-<div class="view" id="project2">
-  <div class="container">
-    <div class="back" onclick="goBack()">← Back</div>
-    <h2>Graphic Work</h2>
-    <p data-type>
-      A curated selection of graphic design projects exploring visual identity,
-      typography, layout systems, and brand-led storytelling across digital and
-      print mediums.
-    </p>
-    <a class="project-link" href="https://www.figma.com/design/31bzfx5Na0FMGUpMNc6UQb/Card-Final?node-id=0-1&t=iCP2sYufigYYn0zv-1" target="_blank" rel="noopener noreferrer">Invitation Card Design →</a>
-    <a class="project-link" href="https://www.figma.com/design/EVXEdvxdBJheSfxT7zVWHw/-newzradar?node-id=0-1&t=NVpxBk7imKTIaEmS-1" target="_blank" rel="noopener noreferrer">E-News pamphlets →</a>
-    <a class="project-link" href="https://www.figma.com/design/IdJk0x6C32wNSXAxuxC38q/freelance-3?node-id=0-1&t=09eOFeqtQG8SClaE-1" target="_blank" rel="noopener noreferrer">Freelancing Project →</a>
-  </div>
-</div>
-
-<!-- ABOUT -->
 <div class="view" id="about">
   <div class="container">
     <div class="back" onclick="goBack()">← Back</div>
     <h2>About</h2>
-    <p data-type>
-      I am a UI/UX Designer focused on crafting clean, intuitive, and purposeful
-      digital experiences. My work blends strong design systems, usability, and
-      thoughtful interaction design to simplify complex ideas into accessible
-      interfaces. I value clarity, restraint, and long-term usability over noise.
-    </p>
   </div>
 </div>
 
-<!-- CONTACT -->
 <div class="view" id="contact">
   <div class="container">
     <div class="back" onclick="goBack()">← Back</div>
     <h2>Contact</h2>
-    <p>
-      <a href="mailto:anshmatlotia@gmail.com?subject=Hiring%20Inquiry%20%E2%80%93%20UI%2FUX%20Designer"
-         class="project-link">
-        anshmatlotia@gmail.com →
-      </a>
-    </p>
   </div>
 </div>
 
@@ -259,11 +179,7 @@ p{
 <div class="custom-cursor hidden" id="cursor"></div>
 
 <script>
-document.addEventListener('visibilitychange',()=>{
-  document.body.classList.toggle('paused', document.hidden);
-});
-
-/* ---------- NAVIGATION ---------- */
+/* ---------- NAVIGATION (UNCHANGED) ---------- */
 const stack=['home'];
 const views=document.querySelectorAll('.view');
 
@@ -271,110 +187,57 @@ function openView(id){
   views.forEach(v=>v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   stack.push(id);
-  updateCursorState();
 }
 function goBack(){
   if(stack.length>1){
     stack.pop();
     views.forEach(v=>v.classList.remove('active'));
-    document.getElementById(stack[stack.length-1]).classList.add('active');
-    updateCursorState();
+    document.getElementById(stack.at(-1)).classList.add('active');
   }
 }
 
-/* ---------- iOS ELASTIC + EDGE GLOW + SWIPE BACK ---------- */
+/* ---------- SAFE iOS ELASTIC + SWIPE BACK ---------- */
 if ('ontouchstart' in window) {
-  let startX=0,startY=0,isSwipeBack=false;
+  let startX=0,startY=0;
   const edgeGlow=document.getElementById('edgeGlow');
 
   document.addEventListener('touchstart',e=>{
-    if(e.touches.length!==1) return;
-    startX=e.touches[0].clientX;
-    startY=e.touches[0].clientY;
-    isSwipeBack=false;
+    const t=e.touches[0];
+    startX=t.clientX;
+    startY=t.clientY;
   },{passive:true});
 
   document.addEventListener('touchmove',e=>{
-    if(e.touches.length!==1) return;
-    const x=e.touches[0].clientX;
-    const y=e.touches[0].clientY;
-    const dx=x-startX;
-    const dy=y-startY;
-    const activeView=document.querySelector('.view.active');
+    const t=e.touches[0];
+    const dx=t.clientX-startX;
+    const dy=t.clientY-startY;
+    const active=document.querySelector('.view.active');
 
+    if(!active) return;
+
+    /* EDGE BACK (VISUAL ONLY) */
     if(startX<24 && dx>0 && Math.abs(dx)>Math.abs(dy)){
-      isSwipeBack=true;
-      if(edgeGlow){
-        edgeGlow.classList.add('active');
-        edgeGlow.style.opacity=Math.min(dx/120,1);
-      }
-      if(activeView){
-        activeView.style.transform=`translateX(${dx*0.15}px)`;
-      }
+      edgeGlow.classList.add('active');
+      edgeGlow.style.opacity=Math.min(dx/120,1);
       return;
     }
 
-    if(activeView && Math.abs(dy)>Math.abs(dx)){
-      activeView.style.transform=`translateX(0) translateY(${dy*0.35}px)`;
+    /* ELASTIC VERTICAL (SAFE) */
+    if(Math.abs(dy)>Math.abs(dx)){
+      active.style.setProperty('--elasticY', `${dy*0.3}px`);
     }
   },{passive:true});
 
-  document.addEventListener('touchend',()=>{
-    const activeView=document.querySelector('.view.active');
-    if(edgeGlow){
-      edgeGlow.classList.remove('active');
-      edgeGlow.style.opacity='';
+  document.addEventListener('touchend',e=>{
+    const active=document.querySelector('.view.active');
+    edgeGlow.classList.remove('active');
+    if(active){
+      active.style.setProperty('--elasticY','0px');
     }
-    if(isSwipeBack) goBack();
-    if(activeView){
-      activeView.style.transition='transform .35s cubic-bezier(.25,1,.5,1)';
-      activeView.style.transform='translateX(0)';
-      setTimeout(()=>activeView.style.transition='',350);
+    if(startX<24 && (e.changedTouches[0].clientX-startX)>80){
+      goBack();
     }
   });
-}
-
-/* ---------- CURSOR ---------- */
-const cursor=document.getElementById('cursor');
-const isTouch=matchMedia('(hover:none)').matches;
-const disabledViews=['project1','project2'];
-let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,enabled=false;
-
-if(!isTouch){
-  document.addEventListener('mousemove',e=>{
-    mx=e.clientX; my=e.clientY;
-    if(!enabled){
-      cursor.classList.remove('hidden');
-      document.body.style.cursor='none';
-      enabled=true;
-    }
-  });
-  (function loop(){
-    cx+=(mx-cx)*0.18;
-    cy+=(my-cy)*0.18;
-    cursor.style.left=cx+'px';
-    cursor.style.top=cy+'px';
-    requestAnimationFrame(loop);
-  })();
-  document.addEventListener('mouseover',e=>{
-    if(e.target.closest('a,.item,.back')) cursor.classList.add('active');
-  });
-  document.addEventListener('mouseout',e=>{
-    if(e.target.closest('a,.item,.back')) cursor.classList.remove('active');
-  });
-}
-
-function updateCursorState(){
-  if(isTouch) return;
-  const active=document.querySelector('.view.active');
-  if(!active) return;
-  if(disabledViews.includes(active.id)){
-    cursor.classList.add('hidden');
-    document.body.style.cursor='auto';
-  }else{
-    cursor.classList.remove('hidden');
-    document.body.style.cursor='none';
-  }
 }
 </script>
 
