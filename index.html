@@ -524,6 +524,20 @@
         document.body.style.cursor = 'none';
       }
     }
+    /* ---------- FULLSCREEN TOGGLE (F KEY) ---------- */
+document.addEventListener('keydown', e => {
+  // Avoid triggering while typing in inputs (future-proof)
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+  if (e.key.toLowerCase() === 'f') {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+});
+
   </script>
 
 </body>
