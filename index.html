@@ -130,7 +130,41 @@ p{
   text-decoration:none;
 }
 .external-links a:hover{color:var(--text)}
+/* ---------- CUSTOM TERMINAL CURSOR ---------- */
+body{
+  cursor: none;
+}
 
+.custom-cursor{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--text);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.08s ease-out, opacity 0.2s ease;
+  z-index: 9999;
+  opacity: 0.85;
+}
+
+/* Cursor hover state (links & buttons) */
+.custom-cursor.active{
+  transform: translate(-50%, -50%) scale(1.8);
+  opacity: 0.6;
+}
+
+/* Disable custom cursor on touch devices */
+@media (hover: none){
+  body{
+    cursor: auto;
+  }
+  .custom-cursor{
+    display: none;
+  }
+}
 /* Mobile refinement */
 @media(max-width:768px){
   p{font-size:13px;line-height:1.65}
@@ -316,7 +350,21 @@ observer.observe(document.body,{
   subtree:true,
   attributeFilter:['class']
 });
-</script>
+/* Custom cursor logic */
+const cursor = document.getElementById('cursor');
 
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+/* Cursor interaction on links */
+document.querySelectorAll('a, .item, .back').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+});
+
+</script>
+<div class="custom-cursor" id="cursor"></div>
 </body>
 </html>
