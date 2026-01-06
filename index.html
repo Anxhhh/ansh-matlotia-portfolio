@@ -72,12 +72,14 @@
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'JetBrains Mono', monospace;
-      overflow: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  cursor: none; /* ← ADD THIS */
+}
+
 
     /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
@@ -252,6 +254,13 @@
         display: none;
       }
     }
+    a,
+button,
+.item,
+.back {
+  cursor: none;
+}
+
   </style>
 </head>
 
@@ -535,6 +544,7 @@ document.addEventListener('keydown', e => {
     }
   }
 });
+
 
   </script>
 
