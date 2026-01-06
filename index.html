@@ -14,7 +14,6 @@
   --muted:#9a9a9a;
 }
 
-/* Inverted text selection */
 ::selection{
   background:var(--text);
   color:var(--bg);
@@ -30,14 +29,13 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-/* View system */
+/* ---------- VIEW SYSTEM ---------- */
 .view{
   position:fixed;
   inset:0;
   padding:40px 24px env(safe-area-inset-bottom);
   transform:translateX(100%);
   transition:transform .45s cubic-bezier(.4,0,.2,1);
-  will-change:transform;
 }
 .view.active{transform:translateX(0)}
 
@@ -47,14 +45,14 @@ body{
   .view{padding:60px 80px}
 }
 
-/* Name + cursor */
+/* ---------- TYPOGRAPHY ---------- */
 .name{
   font-size:14px;
   letter-spacing:.08em;
   margin-bottom:24px;
 }
 .blink{
-  animation: blinkDash 1.6s infinite;
+  animation:blinkDash 1.6s infinite;
 }
 @keyframes blinkDash{
   0%,45%{opacity:1}
@@ -62,7 +60,6 @@ body{
   100%{opacity:1}
 }
 
-/* Terminal intro */
 .terminal{
   font-size:13px;
   line-height:1.6;
@@ -71,7 +68,6 @@ body{
   margin-bottom:40px;
 }
 
-/* Navigation list */
 .list{
   display:flex;
   flex-direction:column;
@@ -107,7 +103,6 @@ p{
   text-align:justify;
 }
 
-/* Links */
 .project-link{
   display:block;
   margin-top:14px;
@@ -123,51 +118,36 @@ p{
   display:flex;
   gap:40px;
   font-size:13px;
-  letter-spacing:.08em;
 }
 .external-links a{
   color:var(--muted);
   text-decoration:none;
 }
-.external-links a:hover{color:var(--text)}
 
-/* Mobile refinement */
+/* ---------- MOBILE ---------- */
 @media(max-width:768px){
-  p{font-size:13px;line-height:1.65}
-  .item{font-size:14px}
+  p{font-size:13px}
 }
 
-/* ---------- CUSTOM TERMINAL CURSOR (REFINED) ---------- */
+/* ---------- CUSTOM CURSOR (STABLE) ---------- */
 .custom-cursor{
   position:fixed;
-  width:8px;
+  width:7px;
   height:16px;
   background:var(--text);
   transform:translate(-50%,-50%);
   pointer-events:none;
   z-index:9999;
-  opacity:.85;
-  animation:caretBlink 1.2s steps(1) infinite;
-  transition:
-    transform .15s cubic-bezier(.22,1,.36,1),
-    opacity .2s ease;
+  opacity:.9;
+  animation:caretBlink 1.3s steps(1) infinite;
 }
-
 @keyframes caretBlink{
   0%,50%,100%{opacity:1}
   25%,75%{opacity:.25}
 }
+.custom-cursor.active{opacity:.5}
+.custom-cursor.hidden{opacity:0}
 
-.custom-cursor.active{
-  transform:translate(-50%,-50%) scale(1.6);
-  opacity:.5;
-}
-
-.custom-cursor.hidden{
-  opacity:0;
-}
-
-/* Disable custom cursor on touch devices */
 @media (hover:none){
   .custom-cursor{display:none}
 }
@@ -179,10 +159,7 @@ p{
 <!-- HOME -->
 <div class="view active" id="home">
   <div class="container">
-    <div class="name">
-      Ansh Matlotia <span class="blink">_</span>
-    </div>
-
+    <div class="name">Ansh Matlotia <span class="blink">_</span></div>
     <div class="terminal" id="terminal"></div>
 
     <div class="list">
@@ -192,9 +169,9 @@ p{
     </div>
 
     <div class="external-links">
-      <a href="https://smoggy-hat-23d.notion.site/Computer-Network-by-Ansh-M-11b45ba9ac0d8083b8f1c1c34b57f43c?source=copy_link" target="_blank" rel="noopener noreferrer">Notion</a>
-      <a href="https://open.spotify.com/artist/28EQdYCDh3bNrvD9qedAxj" target="_blank" rel="noopener noreferrer">Spotify</a>
-      <a href="https://x.com/anshmatlotia" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="https://smoggy-hat-23d.notion.site" target="_blank">Notion</a>
+      <a href="https://open.spotify.com" target="_blank">Spotify</a>
+      <a href="https://x.com/anshmatlotia" target="_blank">X</a>
     </div>
   </div>
 </div>
@@ -218,11 +195,9 @@ p{
     <h2>Elite Marry Me</h2>
     <p data-type>
       Elite Marry Me is a premium matrimony platform focused on high-intent,
-      meaningful connections. I worked end-to-end on UI/UX—research, flows,
-      wireframes, and interaction design—balancing trust, clarity, and emotional
-      sensitivity for an elite audience.
+      meaningful connections. I handled complete UI/UX design.
     </p>
-    <a class="project-link" href="https://elitemarryme.com/" target="_blank" rel="noopener noreferrer">
+    <a class="project-link" href="https://elitemarryme.com" target="_blank">
       View Live Project →
     </a>
   </div>
@@ -234,13 +209,8 @@ p{
     <div class="back" onclick="goBack()">← Back</div>
     <h2>Graphic Work</h2>
     <p data-type>
-      A curated selection of graphic design projects exploring visual identity,
-      typography, layout systems, and brand-led storytelling across digital and
-      print mediums.
+      A collection of graphic and brand design projects across digital and print.
     </p>
-    <a class="project-link" href="https://www.figma.com/design/31bzfx5Na0FMGUpMNc6UQb/Card-Final" target="_blank" rel="noopener noreferrer">Invitation Card Design →</a>
-    <a class="project-link" href="https://www.figma.com/design/EVXEdvxdBJheSfxT7zVWHw/-newzradar" target="_blank" rel="noopener noreferrer">E-News pamphlets →</a>
-    <a class="project-link" href="https://www.figma.com/design/IdJk0x6C32wNSXAxuxC38q/freelance-3" target="_blank" rel="noopener noreferrer">Freelancing Project →</a>
   </div>
 </div>
 
@@ -250,10 +220,8 @@ p{
     <div class="back" onclick="goBack()">← Back</div>
     <h2>About</h2>
     <p data-type>
-      I am a UI/UX Designer focused on crafting clean, intuitive, and purposeful
-      digital experiences. My work blends strong design systems, usability, and
-      thoughtful interaction design to simplify complex ideas into accessible
-      interfaces. I value clarity, restraint, and long-term usability over noise.
+      I am a UI/UX Designer focused on clean, purposeful, and long-term usable
+      digital experiences.
     </p>
   </div>
 </div>
@@ -265,162 +233,120 @@ p{
     <h2>Contact</h2>
     <p>
       <a
-        href="mailto:anshmatlotia@gmail.com?subject=Hiring%20Inquiry%20%E2%80%93%20UI%2FUX%20Designer&body=Hi%20Ansh%2C%0A%0AI%20came%20across%20your%20portfolio%20and%20would%20love%20to%20connect%20with%20you%20regarding%20a%20potential%20opportunity.%0A%0APlease%20let%20me%20know%20a%20good%20time%20to%20talk.%0A%0ABest%20regards%2C"
-        class="project-link"
-      >
+        href="mailto:anshmatlotia@gmail.com?subject=Hiring%20Inquiry%20–%20UI/UX%20Designer"
+        class="project-link">
         anshmatlotia@gmail.com →
       </a>
     </p>
   </div>
 </div>
 
-<!-- CUSTOM CURSOR -->
+<!-- CURSOR -->
 <div class="custom-cursor hidden" id="cursor"></div>
 
 <script>
-/* Navigation stack */
+/* ---------- NAVIGATION ---------- */
 const stack=['home'];
 function openView(id){
   document.getElementById(stack.at(-1)).classList.remove('active');
   document.getElementById(id).classList.add('active');
   stack.push(id);
+  updateCursorState();
 }
 function goBack(){
   if(stack.length>1){
     document.getElementById(stack.pop()).classList.remove('active');
     document.getElementById(stack.at(-1)).classList.add('active');
+    updateCursorState();
   }
 }
 
-/* Swipe back */
-let sx=0, sy=0;
-document.addEventListener('touchstart',e=>{
-  sx=e.touches[0].clientX;
-  sy=e.touches[0].clientY;
-});
-document.addEventListener('touchend',e=>{
-  const dx=e.changedTouches[0].clientX-sx;
-  const dy=e.changedTouches[0].clientY-sy;
-  if(dx>70 && Math.abs(dx)>Math.abs(dy)) goBack();
-});
-
-/* Terminal intro typing */
-const introLines=[
+/* ---------- TERMINAL INTRO ---------- */
+const lines=[
   "> Hello, I’m Ansh.",
-  "> I design clean, purposeful digital experiences.",
+  "> I design clean digital experiences.",
   "> Tap or scroll to explore."
 ];
 const terminal=document.getElementById("terminal");
-let il=0, ic=0;
-(function typeIntro(){
-  if(il>=introLines.length) return;
-  if(ic===0) terminal.appendChild(document.createElement("div"));
-  terminal.lastChild.textContent=introLines[il].slice(0,++ic);
-  if(ic===introLines[il].length){
-    il++; ic=0;
-    setTimeout(typeIntro,450);
-  }else{
-    setTimeout(typeIntro,30);
-  }
+let l=0,c=0;
+(function type(){
+  if(l>=lines.length) return;
+  if(c===0) terminal.appendChild(document.createElement("div"));
+  terminal.lastChild.textContent=lines[l].slice(0,++c);
+  if(c===lines[l].length){l++;c=0;setTimeout(type,400)}
+  else setTimeout(type,30);
 })();
 
-/* Paragraph typing */
-function typeParagraph(el,speed){
-  const text=el.textContent.trim();
-  el.textContent="";
-  let i=0;
-  (function type(){
-    if(i<text.length){
-      el.textContent+=text.charAt(i++);
-      setTimeout(type,speed);
-    }
-  })();
-}
+/* ---------- PARAGRAPH TYPE ---------- */
 const typed=new Set();
 new MutationObserver(()=>{
   document.querySelectorAll('.view.active [data-type]').forEach(p=>{
     if(!typed.has(p)){
       typed.add(p);
-      typeParagraph(p, window.innerWidth<768 ? 12 : 18);
+      const text=p.textContent.trim();
+      p.textContent="";
+      let i=0;
+      (function t(){
+        if(i<text.length){
+          p.textContent+=text.charAt(i++);
+          setTimeout(t,14);
+        }
+      })();
     }
   });
 }).observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
 
-/* ---------- FIXED & REFINED CUSTOM CURSOR LOGIC ---------- */
-const cursor = document.getElementById('cursor');
-const isTouch = window.matchMedia('(hover:none)').matches;
+/* ---------- CURSOR (BULLETPROOF) ---------- */
+const cursor=document.getElementById('cursor');
+const isTouch=matchMedia('(hover:none)').matches;
+const disabledViews=['project1','project2'];
+let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,active=false;
 
-let mx = window.innerWidth / 2;
-let my = window.innerHeight / 2;
-let cx = mx;
-let cy = my;
-let enabled = false;
+if(!isTouch){
+  document.body.style.cursor='none';
 
-if (!isTouch) {
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX;
-    my = e.clientY;
-
-    if (!enabled) {
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    if(!active){
       cursor.classList.remove('hidden');
-      document.body.style.cursor = 'none';
-      enabled = true;
+      active=true;
     }
   });
 
-  function animateCursor() {
-    cx += (mx - cx) * 0.2;
-    cy += (my - cy) * 0.2;
-    cursor.style.left = cx + 'px';
-    cursor.style.top = cy + 'px';
-    requestAnimationFrame(animateCursor);
+  function loop(){
+    cx+=(mx-cx)*0.18;
+    cy+=(my-cy)*0.18;
+    cursor.style.left=cx+'px';
+    cursor.style.top=cy+'px';
+    requestAnimationFrame(loop);
   }
-  animateCursor();
+  loop();
 
-  /* Magnetic pull ONLY for links and back button */
-  document.querySelectorAll('a, .back').forEach(el => {
-    el.addEventListener('mouseenter', () => {
+  document.addEventListener('mouseover',e=>{
+    if(e.target.closest('a,.item,.back')){
       cursor.classList.add('active');
-      const r = el.getBoundingClientRect();
-      mx = r.left + r.width / 2;
-      my = r.top + r.height / 2;
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.classList.remove('active');
-    });
+    }
   });
-
-  /* Work list items: hover feedback only (NO snapping) */
-  document.querySelectorAll('.item').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.classList.add('active');
-    });
-    el.addEventListener('mouseleave', () => {
+  document.addEventListener('mouseout',e=>{
+    if(e.target.closest('a,.item,.back')){
       cursor.classList.remove('active');
-    });
+    }
   });
 }
 
-/* Disable custom cursor on project pages */
-const projectViews = ['project1', 'project2'];
+function updateCursorState(){
+  if(isTouch) return;
+  const activeView=document.querySelector('.view.active');
+  if(!activeView) return;
 
-new MutationObserver(() => {
-  const active = document.querySelector('.view.active');
-  if (!active || isTouch) return;
-
-  if (projectViews.includes(active.id)) {
+  if(disabledViews.includes(activeView.id)){
     cursor.classList.add('hidden');
-    document.body.style.cursor = 'auto';
-  } else {
+    document.body.style.cursor='auto';
+  }else{
     cursor.classList.remove('hidden');
-    document.body.style.cursor = 'none';
+    document.body.style.cursor='none';
   }
-}).observe(document.body, {
-  attributes: true,
-  subtree: true,
-  attributeFilter: ['class']
-});
-
+}
 </script>
 
 </body>
