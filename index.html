@@ -30,7 +30,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-/* iOS-like visual stickiness */
+/* View system */
 .view{
   position:fixed;
   inset:0;
@@ -54,7 +54,7 @@ body{
   margin-bottom:24px;
 }
 .blink{
-  animation: blinkDash 2s infinite;
+  animation: blinkDash 1.6s infinite;
 }
 @keyframes blinkDash{
   0%,45%{opacity:1}
@@ -71,7 +71,7 @@ body{
   margin-bottom:40px;
 }
 
-/* Lists */
+/* Navigation list */
 .list{
   display:flex;
   flex-direction:column;
@@ -133,9 +133,8 @@ p{
 
 /* Mobile refinement */
 @media(max-width:768px){
-  p{font-size:13px;line-height:1.7}
+  p{font-size:13px;line-height:1.65}
   .item{font-size:14px}
-  .footer{font-size:11px}
 }
 </style>
 </head>
@@ -250,7 +249,7 @@ function goBack(){
   }
 }
 
-/* Swipe back */
+/* Swipe back (mobile) */
 let sx=0, sy=0;
 document.addEventListener('touchstart',e=>{
   sx=e.touches[0].clientX;
@@ -262,32 +261,29 @@ document.addEventListener('touchend',e=>{
   if(dx>70 && Math.abs(dx)>Math.abs(dy)) goBack();
 });
 
-/* Terminal intro typing (desktop only) */
-if(window.innerWidth>=900){
-  const lines=[
-    "> Hello, I’m Ansh.",
-    "> I design clean, purposeful digital experiences.",
-    "> Scroll to explore."
-  ];
-  const el=document.getElementById("terminal");
-  let l=0,c=0;
-  function typeIntro(){
-    if(l>=lines.length) return;
-    if(c===0) el.appendChild(document.createElement("div"));
-    const lineEl=el.lastChild;
-    lineEl.textContent=lines[l].slice(0,++c);
-    if(c===lines[l].length){
-      l++;c=0;
-      setTimeout(typeIntro,500);
-    }else{
-      setTimeout(typeIntro,35);
-    }
+/* Terminal intro typing (all devices) */
+const introLines=[
+  "> Hello, I’m Ansh.",
+  "> I design clean, purposeful digital experiences.",
+  "> Tap or scroll to explore."
+];
+const terminal=document.getElementById("terminal");
+let il=0, ic=0;
+(function typeIntro(){
+  if(il>=introLines.length) return;
+  if(ic===0) terminal.appendChild(document.createElement("div"));
+  const lineEl=terminal.lastChild;
+  lineEl.textContent=introLines[il].slice(0,++ic);
+  if(ic===introLines[il].length){
+    il++; ic=0;
+    setTimeout(typeIntro,450);
+  }else{
+    setTimeout(typeIntro,30);
   }
-  typeIntro();
-}
+})();
 
-/* Paragraph typing (desktop only, once per view) */
-function typeParagraph(el,speed=18){
+/* Paragraph typing (all devices, once per view) */
+function typeParagraph(el,speed){
   const text=el.textContent.trim();
   el.textContent="";
   let i=0;
@@ -299,22 +295,20 @@ function typeParagraph(el,speed=18){
   })();
 }
 
-if(window.innerWidth>=900){
-  const typed=new Set();
-  const observer=new MutationObserver(()=>{
-    document.querySelectorAll('.view.active [data-type]').forEach(p=>{
-      if(!typed.has(p)){
-        typed.add(p);
-        typeParagraph(p);
-      }
-    });
+const typed=new Set();
+const observer=new MutationObserver(()=>{
+  document.querySelectorAll('.view.active [data-type]').forEach(p=>{
+    if(!typed.has(p)){
+      typed.add(p);
+      typeParagraph(p, window.innerWidth<768 ? 12 : 18);
+    }
   });
-  observer.observe(document.body,{
-    attributes:true,
-    subtree:true,
-    attributeFilter:['class']
-  });
-}
+});
+observer.observe(document.body,{
+  attributes:true,
+  subtree:true,
+  attributeFilter:['class']
+});
 </script>
 
 </body>
