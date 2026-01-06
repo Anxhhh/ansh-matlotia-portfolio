@@ -147,6 +147,12 @@ p{
 @media (hover:none){
   .custom-cursor{display:none}
 }
+/* ---------- iOS ELASTIC EFFECT (MOBILE ONLY) ---------- */
+@media (hover:none) {
+  .view {
+    touch-action: pan-y;
+  }
+}
 </style>
 </head>
 
@@ -356,6 +362,73 @@ function updateCursorState(){
     document.body.style.cursor='none';
   }
 }
+/* ---------- iOS-STYLE ELASTIC + SWIPE BACK ---------- */
+if ('ontouchstart' in window) {
+  let startX = 0;
+  let startY = 0;
+  let deltaY = 0;
+  let isSwipingBack = false;
+
+  document.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1) return;
+
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    deltaY = 0;
+    isSwipingBack = false;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', e => {
+    if (e.touches.length !== 1) return;
+
+    const x = e.touches[0].clientX;
+    const y = e.touches[0].clientY;
+
+    const dx = x - startX;
+    const dy = y - startY;
+
+    /* ---- SWIPE BACK (EDGE + HORIZONTAL) ---- */
+    if (
+      startX < 24 &&                // left-edge only (iOS style)
+      dx > 0 &&
+      Math.abs(dx) > Math.abs(dy)
+    ) {
+      isSwipingBack = true;
+      return;
+    }
+
+    /* ---- ELASTIC SCROLL ---- */
+    if (Math.abs(dy) > Math.abs(dx)) {
+      deltaY = dy * 0.35; // resistance
+      const activeView = document.querySelector('.view.active');
+      if (activeView) {
+        activeView.style.transform =
+          `translateX(0) translateY(${deltaY}px)`;
+      }
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => {
+    const activeView = document.querySelector('.view.active');
+
+    /* ---- TRIGGER BACK ---- */
+    if (isSwipingBack && Math.abs(startX) < 24) {
+      goBack();
+    }
+
+    /* ---- RESET ELASTIC ---- */
+    if (activeView) {
+      activeView.style.transition =
+        'transform .35s cubic-bezier(.25,1,.5,1)';
+      activeView.style.transform = 'translateX(0)';
+
+      setTimeout(() => {
+        activeView.style.transition = '';
+      }, 350);
+    }
+  });
+}
+
 </script>
 
 </body>
