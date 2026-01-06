@@ -14,12 +14,7 @@
   --muted:#9a9a9a;
 }
 
-/* Selection */
-::selection{
-  background:var(--text);
-  color:var(--bg);
-}
-
+::selection{background:var(--text);color:var(--bg)}
 *{margin:0;padding:0;box-sizing:border-box}
 
 body{
@@ -39,7 +34,6 @@ body{
   transition:transform .45s cubic-bezier(.4,0,.2,1);
 }
 .view.active{transform:translateX(0)}
-
 .container{max-width:900px}
 
 @media(min-width:768px){
@@ -47,14 +41,8 @@ body{
 }
 
 /* ---------- TYPOGRAPHY ---------- */
-.name{
-  font-size:14px;
-  letter-spacing:.08em;
-  margin-bottom:24px;
-}
-.blink{
-  animation: blinkDash 1.6s infinite;
-}
+.name{font-size:14px;letter-spacing:.08em;margin-bottom:24px}
+.blink{animation:blinkDash 1.6s infinite}
 @keyframes blinkDash{
   0%,45%{opacity:1}
   50%,95%{opacity:0}
@@ -69,11 +57,7 @@ body{
   margin-bottom:40px;
 }
 
-.list{
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-}
+.list{display:flex;flex-direction:column;gap:18px}
 .item{
   font-size:14px;
   letter-spacing:.08em;
@@ -90,12 +74,7 @@ body{
   margin-bottom:40px;
 }
 
-h2{
-  font-size:14px;
-  letter-spacing:.12em;
-  margin-bottom:24px;
-}
-
+h2{font-size:14px;letter-spacing:.12em;margin-bottom:24px}
 p{
   font-size:14px;
   line-height:1.7;
@@ -104,7 +83,6 @@ p{
   text-align:justify;
 }
 
-/* Links */
 .project-link{
   display:block;
   margin-top:14px;
@@ -120,20 +98,14 @@ p{
   display:flex;
   gap:40px;
   font-size:13px;
-  letter-spacing:.08em;
 }
-.external-links a{
-  color:var(--muted);
-  text-decoration:none;
-}
-.external-links a:hover{color:var(--text)}
+.external-links a{color:var(--muted);text-decoration:none}
 
-/* Mobile */
 @media(max-width:768px){
   p{font-size:13px;line-height:1.65}
 }
 
-/* ---------- CUSTOM CURSOR (STABLE) ---------- */
+/* ---------- CUSTOM CURSOR ---------- */
 .custom-cursor{
   position:fixed;
   width:7px;
@@ -163,10 +135,7 @@ p{
 <!-- HOME -->
 <div class="view active" id="home">
   <div class="container">
-    <div class="name">
-      Ansh Matlotia <span class="blink">_</span>
-    </div>
-
+    <div class="name">Ansh Matlotia <span class="blink">_</span></div>
     <div class="terminal" id="terminal"></div>
 
     <div class="list">
@@ -258,22 +227,24 @@ p{
   </div>
 </div>
 
-<!-- CURSOR -->
 <div class="custom-cursor hidden" id="cursor"></div>
 
 <script>
 /* ---------- NAVIGATION ---------- */
 const stack=['home'];
+const views=document.querySelectorAll('.view');
+
 function openView(id){
-  document.getElementById(stack.at(-1)).classList.remove('active');
+  views.forEach(v=>v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   stack.push(id);
   updateCursorState();
 }
 function goBack(){
   if(stack.length>1){
-    document.getElementById(stack.pop()).classList.remove('active');
-    document.getElementById(stack.at(-1)).classList.add('active');
+    stack.pop();
+    views.forEach(v=>v.classList.remove('active'));
+    document.getElementById(stack[stack.length-1]).classList.add('active');
     updateCursorState();
   }
 }
@@ -302,22 +273,21 @@ let il=0, ic=0;
 const typed=new Set();
 new MutationObserver(()=>{
   document.querySelectorAll('.view.active [data-type]').forEach(p=>{
-    if(!typed.has(p)){
-      typed.add(p);
-      const text=p.textContent.trim();
-      p.textContent="";
-      let i=0;
-      (function t(){
-        if(i<text.length){
-          p.textContent+=text.charAt(i++);
-          setTimeout(t, window.innerWidth<768 ? 12 : 18);
-        }
-      })();
-    }
+    if(typed.has(p)) return;
+    typed.add(p);
+    const text=p.textContent.trim();
+    p.textContent="";
+    let i=0;
+    (function t(){
+      if(i<text.length){
+        p.textContent+=text.charAt(i++);
+        setTimeout(t, window.innerWidth<768 ? 12 : 18);
+      }
+    })();
   });
 }).observe(document.body,{attributes:true,subtree:true,attributeFilter:['class']});
 
-/* ---------- CURSOR (STABLE) ---------- */
+/* ---------- CURSOR ---------- */
 const cursor=document.getElementById('cursor');
 const isTouch=matchMedia('(hover:none)').matches;
 const disabledViews=['project1','project2'];
@@ -334,14 +304,13 @@ if(!isTouch){
     }
   });
 
-  function loop(){
+  (function loop(){
     cx+=(mx-cx)*0.18;
     cy+=(my-cy)*0.18;
     cursor.style.left=cx+'px';
     cursor.style.top=cy+'px';
     requestAnimationFrame(loop);
-  }
-  loop();
+  })();
 
   document.addEventListener('mouseover',e=>{
     if(e.target.closest('a,.item,.back')){
