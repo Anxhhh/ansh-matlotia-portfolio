@@ -398,6 +398,17 @@ button,
 .skill-tree li {
   cursor: pointer;
 }
+/* ---------- ANDROID-SAFE SKILL TREE LOCK ---------- */
+.skill-parent,
+.skill-tree,
+.skill-tree li {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -ms-user-select: none !important;
+
+  -webkit-touch-callout: none !important;
+  touch-action: manipulation;
+}
   </style>
 </head>
 
@@ -895,21 +906,27 @@ document.addEventListener('keydown', e => {
     });
   });
 })();
-/* ---------- HARD BLOCK TEXT SELECTION IN SKILL TREE ---------- */
+/* ---------- ANDROID HARD BLOCK: SKILL TREE ---------- */
 (() => {
-  const tree = document.querySelector('.skill-tree');
-  if (!tree) return;
+  document.querySelectorAll('.skill-parent, .skill-tree, .skill-tree li')
+    .forEach(el => {
 
-  // Block mouse-based selection
-  tree.addEventListener('mousedown', e => e.preventDefault());
+      // Block long-press text selection
+      el.addEventListener('contextmenu', e => e.preventDefault());
 
-  // Block touch-based selection
-  tree.addEventListener('touchstart', e => {
-    if (e.touches.length === 1) e.preventDefault();
-  }, { passive: false });
+      // Block drag selection
+      el.addEventListener('mousedown', e => e.preventDefault());
 
-  // Block selection API
-  tree.addEventListener('selectstart', e => e.preventDefault());
+      // Android-specific: block long-press highlight
+      el.addEventListener('touchstart', e => {
+        e.preventDefault();
+      }, { passive: false });
+
+      el.addEventListener('touchmove', e => {
+        e.preventDefault();
+      }, { passive: false });
+
+    });
 })();
   </script>
 
