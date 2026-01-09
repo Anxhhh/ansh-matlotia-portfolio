@@ -895,6 +895,22 @@ document.addEventListener('keydown', e => {
     });
   });
 })();
+/* ---------- HARD BLOCK TEXT SELECTION IN SKILL TREE ---------- */
+(() => {
+  const tree = document.querySelector('.skill-tree');
+  if (!tree) return;
+
+  // Block mouse-based selection
+  tree.addEventListener('mousedown', e => e.preventDefault());
+
+  // Block touch-based selection
+  tree.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) e.preventDefault();
+  }, { passive: false });
+
+  // Block selection API
+  tree.addEventListener('selectstart', e => e.preventDefault());
+})();
   </script>
 
 </body>
