@@ -382,6 +382,22 @@ button,
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+/* ---------- SKILL TREE SELECTION LOCK (FIXED) ---------- */
+.skill-parent,
+.skill-parent *,
+.skill-tree,
+.skill-tree * {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -ms-user-select: none !important;
+  -webkit-touch-callout: none;
+}
+
+/* Prevent text cursor from appearing */
+.skill-parent,
+.skill-tree li {
+  cursor: pointer;
+}
   </style>
 </head>
 
