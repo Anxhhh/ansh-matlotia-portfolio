@@ -375,8 +375,13 @@ button,
 .skill-tree li:last-child::before {
   content: "└─";
 }
-
-
+/* ---------- SKILL TREE INTERACTION LOCK ---------- */
+.skill-tree,
+.skill-tree * {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
   </style>
 </head>
 
