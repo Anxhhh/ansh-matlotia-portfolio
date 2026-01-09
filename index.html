@@ -260,6 +260,122 @@ button,
 .back {
   cursor: none;
 }
+/* ---------- ABOUT SCROLL STATES ---------- */
+.about-frame {
+  position: relative;
+  max-width: 560px;
+  height: 220px;
+  overflow: hidden;
+}
+
+.about-state {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .35s ease, transform .35s ease;
+  pointer-events: none;
+}
+
+.about-state.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.about-list {
+  margin-top: 12px;
+  padding-left: 18px;
+  color: var(--muted);
+}
+
+.about-list li {
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+/* ---------- ABOUT META ---------- */
+.about-meta {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 560px;
+}
+
+.about-hint {
+  font-size: 11px;
+  color: var(--muted);
+  opacity: .6;
+  transition: opacity .3s ease;
+}
+
+.about-hint.hidden {
+  opacity: 0;
+}
+
+.about-dots {
+  display: flex;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.about-dots .dot {
+  opacity: .3;
+  transition: opacity .25s ease;
+}
+
+.about-dots .dot.active {
+  opacity: 1;
+}
+/* ---------- SKILL TREE (TERMINAL STYLE) ---------- */
+.skill-parent {
+  cursor: pointer;
+}
+
+.skill-tree {
+  margin-top: 8px;
+  margin-left: 18px;
+  font-size: 13px;
+  color: var(--muted);
+
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity .25s ease, max-height .3s ease;
+}
+
+.skill-parent.open .skill-tree {
+  opacity: 1;
+  max-height: 200px;
+}
+
+.skill-tree li {
+  list-style: none;
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 16px;
+}
+
+/* Tree branches */
+.skill-tree li::before {
+  content: attr(data-prefix);
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+/* ├─ for middle items */
+.skill-tree li:not(:last-child)::before {
+  content: "├─";
+}
+
+/* └─ for last item */
+.skill-tree li:last-child::before {
+  content: "└─";
+}
+
 
   </style>
 </head>
@@ -367,16 +483,88 @@ button,
   </div>
 
   <!-- ABOUT -->
-  <div class="view" id="about">
-    <div class="container">
-      <div class="back" onclick="goBack()">← Back</div>
-      <h2>About</h2>
+<div class="view" id="about">
+  <div class="container">
+    <div class="back" onclick="goBack()">← Back</div>
+    <h2>About</h2>
 
-      <p data-type>
-        Hey, I’m Ansh from Himachal Pradesh. I’ve always been drawn to computers and the quiet curiosity of figuring things out, which slowly grew into an interest in design—not just how things look, but how they feel. I’ve completed my Computer Science Engineering (Hons.) with a CGPA of 8.42, and I enjoy creating simple, calm experiences with intention. I’m still learning and exploring, but I like building things that feel thoughtful, clear, and easy to use.
-      </p>
+    <div class="about-frame" id="aboutFrame">
+
+      <!-- ABOUT -->
+      <div class="about-state active">
+        <p data-type>
+          I am a UI/UX Designer focused on crafting clean, intuitive, and purposeful
+          digital experiences. My work blends strong design systems, usability, and
+          thoughtful interaction design to simplify complex ideas into accessible
+          interfaces. I value clarity, restraint, and long-term usability over noise.
+        </p>
+      </div>
+
+      <!-- SKILLS -->
+      <div class="about-state">
+  <p data-type><strong>Skills</strong></p>
+  <ul class="about-list">
+      <li class="skill-parent" data-skill>
+    UI / UX Design
+  <ul class="skill-tree">
+    <li>Figma</li>
+    <li>Framer</li>
+    <li>ProtoPie</li>
+  </ul>
+</li>
+    <li class="skill-parent" data-skill>
+    Design Systems
+  <ul class="skill-tree">
+    <li>Wireframes</li>
+    <li>Prototypes</li>
+    <li>Lofi Design</li>
+    <li>Interaction Design</li>
+    <li>Motion Design</li>
+  </ul>
+</li>
+<li class="skill-parent" data-skill>
+    Technical Skills
+  <ul class="skill-tree">
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>Vanilla JS</li>
+    <li>Java</li>
+  </ul>
+</li>
+<li class="skill-parent" data-skill>
+    Audio Engineering
+  <ul class="skill-tree">
+    <li>FL Studio</li>
+    <li>Logic Pro</li>
+    <li>Sound Design and Mastering</li>
+  </ul>
+</li>
+  </ul>
+</div>
+      <!-- EDUCATION -->
+<div class="about-state">
+  <p data-type><strong>Education</strong></p>
+  <ul class="about-list">
+    <li data-type>HPTU ’25 — Computer Science Engineering (8.42 CGPA)</li>
+    <li data-type>10+2 — SDCS (75%)</li>
+  </ul>
+</div>
+
+
     </div>
+
+    <div class="about-meta">
+      <div class="about-hint" id="aboutHint">Scroll to explore</div>
+      <div class="about-dots" id="aboutDots">
+        <span class="dot active">•</span>
+        <span class="dot">•</span>
+        <span class="dot">•</span>
+      </div>
+    </div>
+
   </div>
+</div>
+
 
   <!-- CONTACT -->
   <div class="view" id="contact">
@@ -449,29 +637,31 @@ button,
     /* ---------- PARAGRAPH TYPING ---------- */
     const typed = new Set();
 
-    new MutationObserver(() => {
-      if (!document.querySelector('.view.active')) return;
+   new MutationObserver(() => {
+  if (!document.querySelector('.view.active')) return;
 
-      document.querySelectorAll('.view.active [data-type]').forEach(p => {
-        if (typed.has(p)) return;
-        typed.add(p);
+  document.querySelectorAll('.view.active [data-type]').forEach(p => {
+    if (p.closest('#about')) return; // ← FIX
 
-        const text = p.textContent.trim();
-        p.textContent = "";
-        let i = 0;
+    if (typed.has(p)) return;
+    typed.add(p);
 
-        (function t() {
-          if (i < text.length) {
-            p.textContent += text.charAt(i++);
-            setTimeout(t, window.innerWidth < 768 ? 12 : 18);
-          }
-        })();
-      });
-    }).observe(document.body, {
-      attributes: true,
-      subtree: true,
-      attributeFilter: ['class']
-    });
+    const text = p.textContent.trim();
+    p.textContent = "";
+    let i = 0;
+
+    (function t() {
+      if (i < text.length) {
+        p.textContent += text.charAt(i++);
+        setTimeout(t, window.innerWidth < 768 ? 12 : 18);
+      }
+    })();
+  });
+}).observe(document.body, {
+  attributes: true,
+  subtree: true,
+  attributeFilter: ['class']
+});
 
     /* ---------- CURSOR ---------- */
     const cursor = document.getElementById('cursor');
@@ -545,7 +735,145 @@ document.addEventListener('keydown', e => {
   }
 });
 
+/* ---------- ABOUT SCROLL CONTENT + TYPING ---------- */
+(() => {
+  const frame = document.getElementById('aboutFrame');
+  if (!frame) return;
 
+  const states = frame.querySelectorAll('.about-state');
+  const dots = document.querySelectorAll('#aboutDots .dot');
+  const hint = document.getElementById('aboutHint');
+
+  let index = 0;
+  let locked = false;
+  const typed = new WeakSet();
+
+  function type(el) {
+    if (typed.has(el)) return;
+    typed.add(el);
+
+    const text = el.textContent.trim();
+    el.textContent = '';
+    let i = 0;
+
+    (function t() {
+      if (i < text.length) {
+        el.textContent += text.charAt(i++);
+        setTimeout(t, window.innerWidth < 768 ? 10 : 16);
+      }
+    })();
+  }
+
+  function activate(i) {
+    states.forEach(s => s.classList.remove('active'));
+    states[i].classList.add('active');
+
+    dots.forEach((d, n) => d.classList.toggle('active', n === i));
+    if (i > 0) hint.classList.add('hidden');
+
+    states[i].querySelectorAll('[data-type]').forEach(el => {
+  // Handle list items cleanly
+  if (el.tagName === 'LI') {
+    el.style.opacity = '0';
+    const text = el.textContent;
+    el.textContent = '';
+    el.style.opacity = '1';
+
+    let i = 0;
+    (function t() {
+      if (i < text.length) {
+        el.textContent += text.charAt(i++);
+        setTimeout(t, 12);
+      }
+    })();
+  } else {
+    type(el);
+  }
+});
+
+  }
+
+  function step(dir) {
+    if (locked) return;
+    const next = index + dir;
+    if (next < 0 || next >= states.length) return;
+
+    locked = true;
+    index = next;
+    activate(index);
+    setTimeout(() => locked = false, 400);
+  }
+
+  activate(0);
+
+  frame.addEventListener('wheel', e => {
+    if (Math.abs(e.deltaY) < 20) return;
+    step(e.deltaY > 0 ? 1 : -1);
+  });
+
+  let sy = 0;
+  frame.addEventListener('touchstart', e => {
+    sy = e.touches[0].clientY;
+  }, { passive: true });
+
+  frame.addEventListener('touchend', e => {
+    const dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dy) < 40) return;
+    step(dy < 0 ? 1 : -1);
+  });
+})();
+/* ---------- SKILL FLOWCHART TOGGLE ---------- */
+(() => {
+  document.querySelectorAll('[data-skill]').forEach(skill => {
+    skill.addEventListener('click', () => {
+      // Close others
+      document.querySelectorAll('[data-skill]').forEach(s => {
+        if (s !== skill) s.classList.remove('open');
+      });
+
+      skill.classList.toggle('open');
+    });
+  });
+})();
+/* ---------- TERMINAL TREE TYPING ---------- */
+(() => {
+  const typedTrees = new WeakSet();
+
+  function typeTreeItem(li, prefix) {
+    if (typedTrees.has(li)) return;
+    typedTrees.add(li);
+
+    const text = li.textContent.trim();
+    li.textContent = '';
+    li.setAttribute('data-prefix', '');
+
+    let i = 0;
+    let p = 0;
+
+    (function t() {
+      if (p < prefix.length) {
+        li.setAttribute('data-prefix', prefix.slice(0, ++p));
+      } else if (i < text.length) {
+        li.textContent += text.charAt(i++);
+      } else {
+        return;
+      }
+      setTimeout(t, 20);
+    })();
+  }
+
+  document.querySelectorAll('.skill-parent').forEach(parent => {
+    parent.addEventListener('click', () => {
+      if (!parent.classList.contains('open')) return;
+
+      const items = parent.querySelectorAll('[data-tree]');
+      items.forEach((li, idx) => {
+        const prefix = idx === items.length - 1 ? '└─ ' : '├─ ';
+        setTimeout(() => typeTreeItem(li, prefix), idx * 120);
+      });
+    });
+  });
+})();
   </script>
 
 </body>
