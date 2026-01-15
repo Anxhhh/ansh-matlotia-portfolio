@@ -1,946 +1,245 @@
-<!--
-============================================================
- Ansh Matlotia — Personal Portfolio
-============================================================
-
- Author      : Ansh Matlotia
- Role        : UI / UX Designer
- Description : 
-   A minimal, single-page portfolio built with vanilla HTML,
-   CSS, and JavaScript. The project focuses on clarity,
-   performance, and interaction design—featuring smooth
-   transitions, a terminal-style introduction, custom cursor
-   behavior, and responsive layouts without external
-   frameworks.
-
- Design Goals:
-   • Clean, distraction-free interface
-   • Interaction-first UX (motion with restraint)
-   • High performance and Lighthouse-friendly
-   • Desktop and mobile parity
-   • Code simplicity over abstraction
-
- Technologies:
-   • HTML5
-   • CSS3 (custom properties, media queries)
-   • Vanilla JavaScript (no frameworks)
-
- License / Copyright:
-   © 2026 Ansh Matlotia. All rights reserved.
-   This codebase is intended for personal portfolio use.
-   Redistribution or reuse without permission is prohibited.
-
-============================================================
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>Ansh Matlotia — Portfolio</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ansh Matlotia — Interface Designer & Engineer</title>
   <meta name="description"
-        content="Portfolio of Ansh Matlotia, UI/UX Designer focused on clean, purposeful digital experiences and interface design.">
-  <link rel="canonical" href="https://yourdomain.com/">
+    content="Portfolio of Ansh Matlotia, an Interface Designer and Engineer crafting premium digital experiences.">
 
-  <!-- Performance: font preconnect -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;900&display=swap"
+    rel="stylesheet">
 
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400&display=swap"
-        rel="stylesheet">
-
-  <style>
-    :root {
-      --bg: #0b0b0b; 
-      /* --bg: #0f0f0f;*/
-      --text: #eaeaea;
-      --muted: #9a9a9a;
-    }
-
-    ::selection {
-      background: var(--text);
-      color: var(--bg);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'JetBrains Mono', monospace;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  cursor: none; /* ← ADD THIS */
-}
-
-
-    /* Respect reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-
-    /* Pause animations when tab inactive */
-    .paused * {
-      animation-play-state: paused !important;
-    }
-
-    /* ---------- VIEW SYSTEM ---------- */
-    .view {
-      position: fixed;
-      inset: 0;
-      padding: 40px 24px env(safe-area-inset-bottom);
-      transform: translateX(100%);
-      transition: transform .45s cubic-bezier(.4, 0, .2, 1);
-    }
-
-    .view.active {
-      transform: translateX(0);
-    }
-
-    .container {
-      max-width: 900px;
-    }
-
-    @media (min-width: 768px) {
-      .view {
-        padding: 60px 80px;
-      }
-    }
-
-    /* ---------- TYPOGRAPHY ---------- */
-    .name {
-      font-size: 14px;
-      letter-spacing: .08em;
-      margin-bottom: 24px;
-    }
-
-    .blink {
-      animation: blinkDash 1.6s infinite;
-    }
-
-    @keyframes blinkDash {
-      0%, 45% {
-        opacity: 1;
-      }
-      50%, 95% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
-
-    .terminal {
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--muted);
-      max-width: 520px;
-      margin-bottom: 40px;
-    }
-
-    .list {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .item {
-      font-size: 14px;
-      letter-spacing: .08em;
-      color: var(--muted);
-      cursor: pointer;
-      width: fit-content;
-    }
-
-    .item:hover {
-      color: var(--text);
-    }
-
-    .back {
-      font-size: 13px;
-      color: var(--muted);
-      cursor: pointer;
-      margin-bottom: 40px;
-    }
-
-    h2 {
-      font-size: 14px;
-      letter-spacing: .12em;
-      margin-bottom: 24px;
-    }
-
-    p {
-      font-size: 14px;
-      line-height: 1.7;
-      color: var(--muted);
-      max-width: 560px;
-      text-align: justify;
-    }
-
-    .project-link {
-      display: block;
-      margin-top: 14px;
-      font-size: 13px;
-      letter-spacing: .08em;
-      color: var(--muted);
-      text-decoration: none;
-    }
-
-    .project-link:hover {
-      color: var(--text);
-    }
-
-    .external-links {
-      margin-top: 60px;
-      display: flex;
-      gap: 40px;
-      font-size: 13px;
-    }
-
-    .external-links a {
-      color: var(--muted);
-      text-decoration: none;
-    }
-
-    @media (max-width: 768px) {
-      p {
-        font-size: 13px;
-        line-height: 1.65;
-      }
-    }
-
-    /* ---------- CUSTOM CURSOR ---------- */
-    .custom-cursor {
-      position: fixed;
-      width: 7px;
-      height: 16px;
-      background: var(--text);
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 9999;
-      opacity: .9;
-      animation: caretBlink 1.3s steps(1) infinite;
-    }
-
-    @keyframes caretBlink {
-      0%, 50%, 100% {
-        opacity: 1;
-      }
-      25%, 75% {
-        opacity: .25;
-      }
-    }
-
-    .custom-cursor.active {
-      opacity: .5;
-    }
-
-    .custom-cursor.hidden {
-      opacity: 0;
-    }
-
-    @media (hover: none) {
-      .custom-cursor {
-        display: none;
-      }
-    }
-    a,
-button,
-.item,
-.back {
-  cursor: none;
-}
-/* ---------- ABOUT SCROLL STATES ---------- */
-.about-frame {
-  position: relative;
-  max-width: 560px;
-  height: 220px;
-  overflow: hidden;
-}
-
-.about-state {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity .35s ease, transform .35s ease;
-  pointer-events: none;
-}
-
-.about-state.active {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.about-list {
-  margin-top: 12px;
-  padding-left: 18px;
-  color: var(--muted);
-}
-
-.about-list li {
-  margin-bottom: 6px;
-  font-size: 13px;
-}
-
-/* ---------- ABOUT META ---------- */
-.about-meta {
-  margin-top: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 560px;
-}
-
-.about-hint {
-  font-size: 11px;
-  color: var(--muted);
-  opacity: .6;
-  transition: opacity .3s ease;
-}
-
-.about-hint.hidden {
-  opacity: 0;
-}
-
-.about-dots {
-  display: flex;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.about-dots .dot {
-  opacity: .3;
-  transition: opacity .25s ease;
-}
-
-.about-dots .dot.active {
-  opacity: 1;
-}
-/* ---------- SKILL TREE (TERMINAL STYLE) ---------- */
-.skill-parent {
-  cursor: pointer;
-}
-
-.skill-tree {
-  margin-top: 8px;
-  margin-left: 18px;
-  font-size: 13px;
-  color: var(--muted);
-
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: opacity .25s ease, max-height .3s ease;
-}
-
-.skill-parent.open .skill-tree {
-  opacity: 1;
-  max-height: 200px;
-}
-
-.skill-tree li {
-  list-style: none;
-  margin-bottom: 4px;
-  position: relative;
-  padding-left: 16px;
-}
-
-/* Tree branches */
-.skill-tree li::before {
-  content: attr(data-prefix);
-  position: absolute;
-  left: 0;
-  color: var(--muted);
-}
-
-/* ├─ for middle items */
-.skill-tree li:not(:last-child)::before {
-  content: "├─";
-}
-
-/* └─ for last item */
-.skill-tree li:last-child::before {
-  content: "└─";
-}
-/* ---------- SKILL TREE INTERACTION LOCK ---------- */
-.skill-tree,
-.skill-tree * {
-  user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-}
-/* ---------- SKILL TREE SELECTION LOCK (FIXED) ---------- */
-.skill-parent,
-.skill-parent *,
-.skill-tree,
-.skill-tree * {
-  user-select: none !important;
-  -webkit-user-select: none !important;
-  -ms-user-select: none !important;
-  -webkit-touch-callout: none;
-}
-
-/* Prevent text cursor from appearing */
-.skill-parent,
-.skill-tree li {
-  cursor: pointer;
-}
-/* ---------- ANDROID-SAFE SKILL TREE LOCK ---------- */
-.skill-parent,
-.skill-tree,
-.skill-tree li {
-  user-select: none !important;
-  -webkit-user-select: none !important;
-  -ms-user-select: none !important;
-
-  -webkit-touch-callout: none !important;
-  touch-action: manipulation;
-}
-/* ---------- CONTACT META ---------- */
-.contact-muted {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.contact-note {
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  color: var(--muted);
-  opacity: 0.7;
-}
-  </style>
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/core.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/utilities.css">
 </head>
 
 <body>
+  <div class="noise-overlay"></div>
 
-  <!-- HOME -->
-  <div class="view active" id="home">
-    <div class="container">
-      <div class="name">
-        Ansh Matlotia <span class="blink">_</span>
-      </div>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-container">
+      <a href="#" class="logo">ANSH MATLOTIA</a>
 
-      <div class="terminal" id="terminal"></div>
+      <button class="mobile-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
 
-      <nav class="list" aria-label="Primary">
-        <div class="item" onclick="openView('work')">Work</div>
-        <div class="item" onclick="openView('about')">About</div>
-        <div class="item" onclick="openView('contact')">Contact</div>
-      </nav>
-
-      <div class="external-links">
-        <a href="https://smoggy-hat-23d.notion.site/Computer-Network-by-Ansh-M-11b45ba9ac0d8083b8f1c1c34b57f43c?source=copy_link"
-           target="_blank" rel="noopener noreferrer" aria-label="Notion profile">Notion</a>
-        <a href="https://open.spotify.com/artist/28EQdYCDh3bNrvD9qedAxj?si=7Lj4ktCoQ6e4ZZGhisZUjQ"
-           target="_blank" rel="noopener noreferrer" aria-label="Spotify profile">Spotify</a>
-        <a href="https://x.com/anshmatlotia"
-           target="_blank" rel="noopener noreferrer" aria-label="X profile">X</a>
-        <a href="https://drive.google.com/file/d/18NbLuk-oXfl1qqjXZTSW4YrHwqr3OPv7/view?usp=sharing"
-   target="_blank"
-   rel="noopener noreferrer"
-   aria-label="Download My Resume">
-  My Resume ↗
-</a>
-
-      </div>
+      <ul class="nav-links">
+        <li><a href="#work" class="nav-item">Work</a></li>
+        <li><a href="#about" class="nav-item">About</a></li>
+        <li><a href="#contact" class="nav-item">Contact</a></li>
+      </ul>
     </div>
-  </div>
+  </nav>
 
-  <!-- WORK -->
-  <div class="view" id="work">
-    <div class="container">
-      <div class="back" onclick="goBack()">← Back</div>
-      <h2>Work</h2>
-
-      <div class="list">
-        <div class="item" onclick="openView('project1')">Elite Marry Me</div>
-        <div class="item" onclick="openView('project2')">Graphic Work</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PROJECT 1 -->
-  <div class="view" id="project1">
-    <div class="container">
-      <div class="back" onclick="goBack()">← Back</div>
-      <h2>Elite Marry Me</h2>
-
-      <p data-type>
-        Elite Marry Me is a premium matrimony platform focused on high-intent,
-        meaningful connections. I worked end-to-end on UI/UX—research, flows,
-        wireframes, and interaction design—balancing trust, clarity, and emotional
-        sensitivity for an elite audience.
-      </p>
-      
-      <a class="project-link"
-         href="https://elitemarryme.com/"
-         target="_blank"
-         rel="noopener noreferrer">
-        View Live Project →
-      </a>
-    </div>
-  </div>
-
-  <!-- PROJECT 2 -->
-  <div class="view" id="project2">
-    <div class="container">
-      <div class="back" onclick="goBack()">← Back</div>
-      <h2>Graphic Work</h2>
-
-      <p data-type>
-        A curated selection of graphic design projects exploring visual identity,
-        typography, layout systems, and brand-led storytelling across digital and
-        print mediums.
-      </p>
-
-      <a class="project-link"
-         href="https://www.figma.com/design/31bzfx5Na0FMGUpMNc6UQb/Card-Final?node-id=0-1&t=iCP2sYufigYYn0zv-1"
-         target="_blank" rel="noopener noreferrer">
-        Invitation Card Design →
-      </a>
-
-      <a class="project-link"
-         href="https://www.figma.com/design/EVXEdvxdBJheSfxT7zVWHw/-newzradar?node-id=0-1&t=NVpxBk7imKTIaEmS-1"
-         target="_blank" rel="noopener noreferrer">
-        E-News pamphlets →
-      </a>
-
-      <a class="project-link"
-         href="https://www.figma.com/design/IdJk0x6C32wNSXAxuxC38q/freelance-3?node-id=0-1&t=09eOFeqtQG8SClaE-1"
-         target="_blank" rel="noopener noreferrer">
-        Freelancing Project →
-      </a>
-    </div>
-  </div>
-
-  <!-- ABOUT -->
-<div class="view" id="about">
-  <div class="container">
-    <div class="back" onclick="goBack()">← Back</div>
-    <h2>About</h2>
-
-    <div class="about-frame" id="aboutFrame">
-
-      <!-- ABOUT -->
-      <div class="about-state active">
-        <p data-type>
-          I design clean, intentional digital experiences with a focus on usability, interaction, and system-driven thinking. I value clarity, restraint, and long-term usability over visual noise.
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <p class="hero-overline" data-parallax="0.2">Based in India</p>
+        <h1 class="hero-title display-text" data-parallax="0.1">
+          Interface Designer<br>
+          <span class="text-secondary">& Engineer</span>
+        </h1>
+        <p class="hero-description" data-parallax="0.05">
+          Crafting clarity from complexity. I build editorial-grade digital experiences that blend aesthetic precision
+          with technical performance.
         </p>
       </div>
 
-      <!-- SKILLS -->
-      <div class="about-state">
-  <p data-type><strong>Skills</strong></p>
-  <ul class="about-list">
-      <li class="skill-parent" data-skill>
-    UI / UX Design
-  <ul class="skill-tree">
-    <li>Figma</li>
-    <li>Framer</li>
-    <li>ProtoPie</li>
-  </ul>
-</li>
-    <li class="skill-parent" data-skill>
-    Design Systems
-  <ul class="skill-tree">
-    <li>Wireframes</li>
-    <li>Prototypes</li>
-    <li>Lofi Design</li>
-    <li>Interaction Design</li>
-    <li>Motion Design</li>
-  </ul>
-</li>
-<li class="skill-parent" data-skill>
-    Technical Skills
-  <ul class="skill-tree">
-    <li>HTML</li>
-    <li>CSS</li>
-    <li>Vanilla JS</li>
-    <li>React</li>
-  </ul>
-</li>
-<li class="skill-parent" data-skill>
-    Audio Engineering
-  <ul class="skill-tree">
-    <li>FL Studio and Logic Pro</li>
-    <li>Synth Programming</li>
-    <li>Audio Production and Mastering</li>
-  </ul>
-</li>
-  </ul>
-</div>
-      <!-- EDUCATION -->
-<div class="about-state">
-  <p data-type><strong>Education</strong></p>
-  <ul class="about-list">
-    <li data-type>HIET ’25 — B.Tech in Computer Science Engineering (8.42 CGPA)</li>
-    <li data-type>10+2 — SDCS (75%)</li>
-  </ul>
-</div>
-
-
-    </div>
-
-    <div class="about-meta">
-      <div class="about-hint" id="aboutHint">Scroll to explore</div>
-      <div class="about-dots" id="aboutDots">
-        <span class="dot active">•</span>
-        <span class="dot">•</span>
-        <span class="dot">•</span>
+      <div class="scroll-indicator">
+        <span class="scroll-text">Scroll</span>
+        <div class="scroll-line"></div>
       </div>
+
+      <!-- Hero Avatar / Morphing Blob -->
+      <div class="hero-visual">
+        <div class="hero-float-wrapper">
+          <div class="hero-glow"></div>
+          <div class="hero-blob-mask">
+            <img src="assets/images/avatar.png" alt="Ansh Matlotia Avatar" class="hero-avatar-img">
+          </div>
+        </div>
+      </div>
+
     </div>
+  </header>
 
-  </div>
-</div>
+  <!-- Main Content Placeholder -->
+  <main>
+    <!-- Work Section Placeholder -->
+    <!-- Work Section -->
+    <section id="work" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label" data-parallax="0.05">Selected Work</span>
+          <h2 class="section-title" data-parallax="0.02">Case Studies</h2>
+        </div>
 
+        <div class="work-grid">
+          <!-- Featured Project 1 -->
+          <article class="project-card featured">
+            <a href="https://elitemarryme.com/" target="_blank" rel="noopener noreferrer" class="project-link-wrapper">
+              <div class="project-content">
+                <div class="project-meta">
+                  <span class="project-year">2025</span>
+                  <span class="project-category">UX / Functionality</span>
+                </div>
+                <h3 class="project-title">Elite Marry Me</h3>
+                <p class="project-description">
+                  A premium matrimony platform designed for high-intent connections.
+                  End-to-end UI/UX focus on trust, clarity, and emotional sensitivity.
+                </p>
+                <div class="project-action">View Project <span class="arrow">→</span></div>
+              </div>
+              <div class="project-image-container">
+                <div class="project-placeholder-visual project-elite"></div>
+              </div>
+            </a>
+          </article>
 
-  <!-- CONTACT -->
-<div class="view" id="contact">
-  <div class="container">
-    <div class="back" onclick="goBack()">← Back</div>
-    <h2>Contact</h2>
-    <span class="contact-note">Say hi!
-            Replies within 24h.</span>
-      <a
-        href="mailto:anshmatlotia@gmail.com?subject=Hiring%20Inquiry%20%E2%80%93%20UI%2FUX%20Designer"
-        class="project-link"
-      >
-        anshmatlotia@gmail.com →
-      </a>
-    </p>
-  </div>
-</div>
+          <!-- Graphic Work / Smaller Projects -->
+          <div class="sub-projects-grid">
+            <article class="project-card compact reveal delay-200">
+              <a href="https://www.figma.com/design/31bzfx5Na0FMGUpMNc6UQb/Card-Final?node-id=0-1&t=iCP2sYufigYYn0zv-1"
+                target="_blank" rel="noopener noreferrer" class="project-link-wrapper">
+                <div class="project-content">
+                  <h3 class="project-title">Visual Identity</h3>
+                  <p class="project-description">Invitation Card Design</p>
+                </div>
+                <div class="project-image-container compact-img">
+                  <div class="project-placeholder-visual project-invitation"></div>
+                </div>
+                <div class="project-action-icon">↗</div>
+              </a>
+            </article>
 
-  <div class="custom-cursor hidden" id="cursor"></div>
+            <article class="project-card compact reveal delay-200">
+              <a href="https://www.figma.com/design/EVXEdvxdBJheSfxT7zVWHw/-newzradar?node-id=0-1&t=NVpxBk7imKTIaEmS-1"
+                target="_blank" rel="noopener noreferrer" class="project-link-wrapper">
+                <div class="project-content">
+                  <h3 class="project-title">E-News Pamphlets</h3>
+                  <p class="project-description">Editorial Layout System</p>
+                </div>
+                <div class="project-image-container compact-img">
+                  <div class="project-placeholder-visual project-enews"></div>
+                </div>
+                <div class="project-action-icon">↗</div>
+              </a>
+            </article>
 
-  <script>
-    /* Pause animations when tab hidden */
-    document.addEventListener('visibilitychange', () => {
-      document.body.classList.toggle('paused', document.hidden);
-    });
+            <article class="project-card compact reveal delay-200">
+              <a href="https://www.figma.com/design/IdJk0x6C32wNSXAxuxC38q/freelance-3?node-id=0-1&t=09eOFeqtQG8SClaE-1"
+                target="_blank" rel="noopener noreferrer" class="project-link-wrapper">
+                <div class="project-content">
+                  <h3 class="project-title">Freelance Projects</h3>
+                  <p class="project-description">Various Graphic Works</p>
+                </div>
+                <div class="project-image-container compact-img">
+                  <div class="project-placeholder-visual project-graphic"></div>
+                </div>
+                <div class="project-action-icon">↗</div>
+              </a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    /* ---------- NAVIGATION ---------- */
-    const stack = ['home'];
-    const views = document.querySelectorAll('.view');
+    <!-- About Section -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-narrative reveal">
+            <span class="section-label" data-parallax="0.05">02 — About</span>
+            <h2 class="about-headline">
+              I design clean, intentional digital experiences with a focus on usability, interaction, and system-driven
+              thinking.
+            </h2>
+            <p class="about-text">
+              With a background in Computer Science and a passion for interface design, I bridge the gap between
+              aesthetic vision and technical reality. I value clarity, restraint, and long-term usability over visual
+              noise.
+            </p>
+          </div>
 
-    function openView(id) {
-      views.forEach(v => v.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      stack.push(id);
-      updateCursorState();
-    }
+          <div class="about-details">
+            <!-- Skills -->
+            <div class="detail-group reveal delay-200">
+              <h3 class="detail-title">Expertise</h3>
+              <div class="scrolling-tags">
+                <span class="tag">UI/UX Design</span>
+                <span class="tag">Design Systems</span>
+                <span class="tag">Interaction Design</span>
+                <span class="tag">Prototyping</span>
+                <span class="tag">HTML/CSS/JS</span>
+                <span class="tag">React</span>
+                <span class="tag">Audio Engineering</span>
+              </div>
+            </div>
 
-    function goBack() {
-      if (stack.length > 1) {
-        stack.pop();
-        views.forEach(v => v.classList.remove('active'));
-        document.getElementById(stack[stack.length - 1]).classList.add('active');
-        updateCursorState();
-      }
-    }
+            <!-- Education -->
+            <div class="detail-group reveal delay-300">
+              <h3 class="detail-title">Education</h3>
+              <ul class="detail-list">
+                <li>
+                  <span class="detail-main">B.Tech in Computer Science</span>
+                  <span class="detail-sub">HIET, 2025</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    /* ---------- TERMINAL INTRO ---------- */
-    const introLines = [
-      "> Hello, I’m Ansh.",
-      "> I design clean, purposeful digital experiences.",
-      "> Tap to explore."
-    ];
+    <!-- Footer / Contact -->
+    <footer id="contact" class="footer">
+      <div class="container">
+        <div class="footer-content reveal">
+          <p class="footer-label">Ready to collaborate?</p>
+          <a href="mailto:anshmatlotia@gmail.com" class="footer-cta">
+            Let's build something<br>exceptional.
+          </a>
 
-    const terminal = document.getElementById("terminal");
-    let il = 0, ic = 0;
+          <div class="footer-meta">
+            <div class="footer-socials">
+              <a href="https://x.com/anshmatlotia" target="_blank" rel="noopener noreferrer">X / Twitter</a>
+              <a href="https://www.linkedin.com/in/ansh-matlotia-5b1b3b201/" target="_blank"
+                rel="noopener noreferrer">LinkedIn</a>
+              <a href="https://github.com/Anxhhh" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
 
-    (function typeIntro() {
-      if (il >= introLines.length) return;
-      if (ic === 0) terminal.appendChild(document.createElement("div"));
+            <div class="footer-copy">
+              &copy; 2026 Ansh Matlotia. <br class="mobile-only">
+              <a href="https://github.com/Anxhhh/ansh-matlotia-portfolio" target="_blank" class="source-link">View
+                Source</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
 
-      terminal.lastChild.textContent = introLines[il].slice(0, ++ic);
+  <!-- Cursor -->
+  <div class="cursor-dot" data-cursor-dot></div>
+  <div class="cursor-outline" data-cursor-outline></div>
 
-      if (ic === introLines[il].length) {
-        il++;
-        ic = 0;
-        setTimeout(typeIntro, 450);
-      } else {
-        setTimeout(typeIntro, 30);
-      }
-    })();
-
-    /* ---------- PARAGRAPH TYPING ---------- */
-    const typed = new Set();
-
-   new MutationObserver(() => {
-  if (!document.querySelector('.view.active')) return;
-
-  document.querySelectorAll('.view.active [data-type]').forEach(p => {
-    if (p.closest('#about')) return; // ← FIX
-
-    if (typed.has(p)) return;
-    typed.add(p);
-
-    const text = p.textContent.trim();
-    p.textContent = "";
-    let i = 0;
-
-    (function t() {
-      if (i < text.length) {
-        p.textContent += text.charAt(i++);
-        setTimeout(t, window.innerWidth < 768 ? 12 : 18);
-      }
-    })();
-  });
-}).observe(document.body, {
-  attributes: true,
-  subtree: true,
-  attributeFilter: ['class']
-});
-
-    /* ---------- CURSOR ---------- */
-    const cursor = document.getElementById('cursor');
-    const isTouch = matchMedia('(hover:none)').matches;
-    const disabledViews = ['project1', 'project2'];
-
-    let mx = innerWidth / 2,
-        my = innerHeight / 2,
-        cx = mx,
-        cy = my,
-        enabled = false;
-
-    if (!isTouch) {
-      document.addEventListener('mousemove', e => {
-        mx = e.clientX;
-        my = e.clientY;
-
-        if (!enabled) {
-          cursor.classList.remove('hidden');
-          document.body.style.cursor = 'none';
-          enabled = true;
-        }
-      });
-
-      (function loop() {
-        cx += (mx - cx) * 0.18;
-        cy += (my - cy) * 0.18;
-        cursor.style.left = cx + 'px';
-        cursor.style.top = cy + 'px';
-        requestAnimationFrame(loop);
-      })();
-
-      document.addEventListener('mouseover', e => {
-        if (e.target.closest('a,.item,.back')) {
-          cursor.classList.add('active');
-        }
-      });
-
-      document.addEventListener('mouseout', e => {
-        if (e.target.closest('a,.item,.back')) {
-          cursor.classList.remove('active');
-        }
-      });
-    }
-
-    function updateCursorState() {
-      if (isTouch) return;
-
-      const active = document.querySelector('.view.active');
-      if (!active) return;
-
-      if (disabledViews.includes(active.id)) {
-        cursor.classList.add('hidden');
-        document.body.style.cursor = 'auto';
-      } else {
-        cursor.classList.remove('hidden');
-        document.body.style.cursor = 'none';
-      }
-    }
-    /* ---------- FULLSCREEN TOGGLE (F KEY) ---------- */
-document.addEventListener('keydown', e => {
-  // Avoid triggering while typing in inputs (future-proof)
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-  if (e.key.toLowerCase() === 'f') {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
-    } else {
-      document.exitFullscreen().catch(() => {});
-    }
-  }
-});
-
-/* ---------- ABOUT SCROLL CONTENT + TYPING ---------- */
-(() => {
-  const frame = document.getElementById('aboutFrame');
-  if (!frame) return;
-
-  const states = frame.querySelectorAll('.about-state');
-  const dots = document.querySelectorAll('#aboutDots .dot');
-  const hint = document.getElementById('aboutHint');
-
-  let index = 0;
-  let locked = false;
-  const typed = new WeakSet();
-
-  function type(el) {
-    if (typed.has(el)) return;
-    typed.add(el);
-
-    const text = el.textContent.trim();
-    el.textContent = '';
-    let i = 0;
-
-    (function t() {
-      if (i < text.length) {
-        el.textContent += text.charAt(i++);
-        setTimeout(t, window.innerWidth < 768 ? 10 : 16);
-      }
-    })();
-  }
-
-  function activate(i) {
-    states.forEach(s => s.classList.remove('active'));
-    states[i].classList.add('active');
-
-    dots.forEach((d, n) => d.classList.toggle('active', n === i));
-    if (i > 0) hint.classList.add('hidden');
-
-    states[i].querySelectorAll('[data-type]').forEach(el => {
-  // Handle list items cleanly
-  if (el.tagName === 'LI') {
-    el.style.opacity = '0';
-    const text = el.textContent;
-    el.textContent = '';
-    el.style.opacity = '1';
-
-    let i = 0;
-    (function t() {
-      if (i < text.length) {
-        el.textContent += text.charAt(i++);
-        setTimeout(t, 12);
-      }
-    })();
-  } else {
-    type(el);
-  }
-});
-
-  }
-
-  function step(dir) {
-    if (locked) return;
-    const next = index + dir;
-    if (next < 0 || next >= states.length) return;
-
-    locked = true;
-    index = next;
-    activate(index);
-    setTimeout(() => locked = false, 400);
-  }
-
-  activate(0);
-
-  frame.addEventListener('wheel', e => {
-    if (Math.abs(e.deltaY) < 20) return;
-    step(e.deltaY > 0 ? 1 : -1);
-  });
-
-  let sy = 0;
-  frame.addEventListener('touchstart', e => {
-    sy = e.touches[0].clientY;
-  }, { passive: true });
-
-  frame.addEventListener('touchend', e => {
-    const dy = e.changedTouches[0].clientY - sy;
-    if (Math.abs(dy) < 40) return;
-    step(dy < 0 ? 1 : -1);
-  });
-})();
-/* ---------- SKILL FLOWCHART TOGGLE ---------- */
-(() => {
-  document.querySelectorAll('[data-skill]').forEach(skill => {
-    skill.addEventListener('click', () => {
-      // Close others
-      document.querySelectorAll('[data-skill]').forEach(s => {
-        if (s !== skill) s.classList.remove('open');
-      });
-
-      skill.classList.toggle('open');
-    });
-  });
-})();
-/* ---------- TERMINAL TREE TYPING ---------- */
-(() => {
-  const typedTrees = new WeakSet();
-
-  function typeTreeItem(li, prefix) {
-    if (typedTrees.has(li)) return;
-    typedTrees.add(li);
-
-    const text = li.textContent.trim();
-    li.textContent = '';
-    li.setAttribute('data-prefix', '');
-
-    let i = 0;
-    let p = 0;
-
-    (function t() {
-      if (p < prefix.length) {
-        li.setAttribute('data-prefix', prefix.slice(0, ++p));
-      } else if (i < text.length) {
-        li.textContent += text.charAt(i++);
-      } else {
-        return;
-      }
-      setTimeout(t, 20);
-    })();
-  }
-
-  document.querySelectorAll('.skill-parent').forEach(parent => {
-    parent.addEventListener('click', () => {
-      if (!parent.classList.contains('open')) return;
-
-      const items = parent.querySelectorAll('[data-tree]');
-      items.forEach((li, idx) => {
-        const prefix = idx === items.length - 1 ? '└─ ' : '├─ ';
-        setTimeout(() => typeTreeItem(li, prefix), idx * 120);
-      });
-    });
-  });
-})();
-/* ---------- ANDROID HARD BLOCK: SKILL TREE ---------- */
-(() => {
-  document.querySelectorAll('.skill-parent, .skill-tree, .skill-tree li')
-    .forEach(el => {
-
-      // Block long-press text selection
-      el.addEventListener('contextmenu', e => e.preventDefault());
-
-      // Block drag selection
-      el.addEventListener('mousedown', e => e.preventDefault());
-
-      // Android-specific: block long-press highlight
-      el.addEventListener('touchstart', e => {
-        e.preventDefault();
-      }, { passive: false });
-
-      el.addEventListener('touchmove', e => {
-        e.preventDefault();
-      }, { passive: false });
-
-    });
-})();
-  </script>
-
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
 </body>
+
 </html>
