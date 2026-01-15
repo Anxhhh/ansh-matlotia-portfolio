@@ -1,6 +1,9 @@
 /* Core Styles */
 body {
     background-color: var(--bg-core);
+    background-image: var(--mesh-gradient-1), var(--mesh-gradient-2);
+    /* Subtle Anti-Gravity Mesh */
+    background-attachment: fixed;
     color: var(--text-primary);
     font-family: var(--font-family-body);
     -webkit-font-smoothing: antialiased;

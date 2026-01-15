@@ -41,7 +41,8 @@
 
 /* Hero Section: Bento Grid */
 .hero-bento-section {
-    padding: 160px 0 80px;
+    padding: 120px 0 60px;
+    /* Reduced top padding for mobile */
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -50,14 +51,20 @@
 .bento-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--grid-gap);
+    gap: 16px;
+    /* Explicit gap for mobile */
     width: 100%;
 }
 
 @media (min-width: 960px) {
+    .hero-bento-section {
+        padding: 160px 0 80px;
+    }
+
     .bento-grid {
         grid-template-columns: repeat(12, 1fr);
         grid-template-rows: minmax(300px, auto) 180px;
+        gap: var(--grid-gap);
     }
 
     /* Box 1: Intro (Big Left) */
@@ -88,11 +95,20 @@
 .bento-box {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    padding: 40px;
+    border-radius: var(--radius-md);
+    /* Smaller radius for mobile */
+    padding: 24px;
+    /* Reduced padding for mobile */
     position: relative;
     overflow: hidden;
     transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    .bento-box {
+        border-radius: var(--radius-lg);
+        padding: 40px;
+    }
 }
 
 .bento-box:hover {
@@ -107,23 +123,27 @@
 }
 
 .intro-title {
-    font-size: clamp(40px, 5vw, 64px);
+    font-size: clamp(32px, 8vw, 64px);
+    /* Optimized clamp for mobile */
     line-height: 1.1;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     font-weight: 700;
 }
 
 .intro-desc {
-    font-size: 18px;
+    font-size: 16px;
+    /* Readable text size */
     color: var(--text-secondary);
     max-width: 480px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     line-height: 1.6;
 }
 
 .intro-actions {
     display: flex;
-    gap: 16px;
+    flex-wrap: wrap;
+    /* allow wrap on very small screens */
+    gap: 12px;
 }
 
 /* Buttons */
@@ -134,6 +154,17 @@
     font-weight: 500;
     text-decoration: none;
     transition: all 0.2s ease;
+    flex: 1;
+    /* Stretch buttons on mobile */
+    text-align: center;
+}
+
+@media (min-width: 480px) {
+    .btn {
+        flex: 0 1 auto;
+        /* Reset flex for larger buttons */
+        width: auto;
+    }
 }
 
 .btn-primary {
@@ -434,11 +465,27 @@
 
 /* Section Common */
 .section {
-    padding: 120px 0;
+    padding: 80px 0;
+    /* Reduced from 120px */
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 60px 0;
+        /* Even tighter on mobile */
+    }
 }
 
 .section-header {
-    margin-bottom: 60px;
+    margin-bottom: 40px;
+    /* Reduced from 60px */
+}
+
+@media (max-width: 768px) {
+    .section-header {
+        margin-bottom: 24px;
+        /* Tighter on mobile */
+    }
 }
 
 .section-label {
@@ -447,7 +494,8 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--text-secondary);
-    margin-bottom: 12px;
+    margin-bottom: 32px;
+    /* Increased from 12px for more breathing room */
 }
 
 .section-title {

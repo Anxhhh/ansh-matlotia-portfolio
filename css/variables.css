@@ -12,6 +12,10 @@
   --accent: #3B82F6;
   /* Electric Blue - Use sparingly */
 
+  /* Mesh Gradients */
+  --mesh-gradient-1: radial-gradient(circle at 20% 30%, rgba(108, 93, 211, 0.15), transparent 40%);
+  --mesh-gradient-2: radial-gradient(circle at 80% 60%, rgba(25, 25, 112, 0.15), transparent 40%);
+
   /* Typography */
   --font-family-display: 'Outfit', sans-serif;
   --font-family-body: 'Inter', sans-serif;
