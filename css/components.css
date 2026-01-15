@@ -7,6 +7,19 @@
     padding: 24px 0;
     z-index: 100;
     mix-blend-mode: difference;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .nav {
+        padding: 16px 0;
+        mix-blend-mode: normal;
+        /* Disable difference mode for glass bg to show */
+        background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
 }
 
 .nav-container {
@@ -490,6 +503,8 @@
 
 .section-label {
     display: block;
+    position: relative;
+    /* Ensure it stacks */
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -512,20 +527,22 @@
     gap: 40px;
 }
 
-/* Project Cards */
+/* Project Cards: Unlocked Motion */
 .project-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    transition: transform 0.4s var(--ease-out-expo), border-color 0.4s ease;
     position: relative;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    /* Faster exit */
 }
 
+/* Hover State: Container */
 .project-card:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.05);
     transform: translateY(-4px);
-    border-color: var(--glass-border-hover);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .project-link-wrapper {
@@ -533,9 +550,11 @@
     height: 100%;
     color: inherit;
     text-decoration: none;
+    position: relative;
+    z-index: 10;
 }
 
-/* Featured Card */
+/* Featured Card Layout */
 .project-card.featured .project-link-wrapper {
     display: grid;
     grid-template-columns: 1fr;
@@ -552,8 +571,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent);
+    /* Readability fade */
 }
 
+/* Animations Elements */
 .project-meta {
     display: flex;
     gap: 16px;
@@ -563,6 +587,8 @@
     font-family: var(--font-family-display);
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    transform: translateY(0);
+    transition: transform 0.5s ease;
 }
 
 .project-title {
@@ -571,14 +597,23 @@
     margin-bottom: 24px;
     color: var(--text-primary);
     line-height: 1.1;
+    transform: translateY(0);
+    transition: transform 0.5s ease;
 }
 
+/* Reveal Logic: Description & Action */
 .project-description {
     color: var(--text-secondary);
     font-size: 16px;
     margin-bottom: 40px;
     max-width: 440px;
     line-height: 1.6;
+
+    /* Hidden State */
+    opacity: 0.6;
+    transform: translateY(10px);
+    transition: all 0.5s ease;
+    filter: blur(0px);
 }
 
 .project-action {
@@ -588,10 +623,32 @@
     align-items: center;
     gap: 12px;
     font-weight: 500;
+
+    /* Hidden State */
+    opacity: 0.8;
+    transform: translateX(-10px);
+    transition: all 0.5s ease;
+}
+
+/* Hover: Reveal Details */
+.project-card:hover .project-description {
+    opacity: 1;
+    color: #fff;
+    transform: translateY(0);
+}
+
+.project-card:hover .project-action {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Hover: Shift Title Up slightly to make room */
+.project-card:hover .project-title {
+    transform: translateY(-4px);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .project-action .arrow {
-    transition: transform 0.3s ease;
     background: rgba(255, 255, 255, 0.1);
     width: 32px;
     height: 32px;
@@ -599,17 +656,20 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .project-card:hover .arrow {
-    transform: translateX(4px);
+    transform: translateX(8px) scale(1.1);
     background: #fff;
     color: #000;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
+/* Image Container */
 .project-image-container {
     min-height: 400px;
-    background: #1a1a1a;
+    background: #050505;
     position: relative;
     overflow: hidden;
 }
@@ -619,11 +679,15 @@
     height: 100%;
     background-size: cover;
     background-position: center;
-    transition: transform 0.6s ease;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+    filter: grayscale(100%) brightness(0.8);
 }
 
 .project-card:hover .project-placeholder-visual {
     transform: scale(1.05);
+    /* Smooth zoom */
+    filter: grayscale(0%) brightness(1.1);
+    /* Color bloom */
 }
 
 /* Project Images */
@@ -645,30 +709,87 @@
 
 /* Compact Cards Layout Fix */
 .project-card.compact .project-link-wrapper {
-    padding: 0;
-    display: grid;
-    grid-template-columns: 1fr 100px;
-    height: 100%;
+    display: block;
+    /* Stacked */
+    position: relative;
+    height: 320px;
 }
 
 .project-card.compact .project-content {
-    padding: 32px;
+    position: relative;
     z-index: 2;
+    height: 100%;
+    justify-content: flex-end;
+    /* Text at bottom */
+    padding: 32px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 80%);
 }
 
 .project-card.compact .project-image-container.compact-img {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.1;
-    transition: opacity 0.4s ease;
-    mix-blend-mode: overlay;
+    z-index: 1;
+    opacity: 0.4;
+    transition: opacity 0.5s ease;
 }
 
 .project-card.compact:hover .project-image-container.compact-img {
     opacity: 0.2;
+    /* Dim more to show text */
+}
+
+.project-card.compact .project-title {
+    font-size: 24px;
+    margin-bottom: 8px;
+    transform: translateY(20px);
+    /* Pushed down initially */
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.project-card.compact .project-description {
+    font-size: 14px;
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Compact Hover Reveal */
+.project-card.compact:hover .project-title {
+    transform: translateY(0);
+}
+
+.project-card.compact:hover .project-description {
+    max-height: 60px;
+    /* Reveal text */
+    opacity: 1;
+    margin-bottom: 16px;
+}
+
+.project-card.compact .project-action-icon {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+}
+
+.project-card.compact:hover .project-action-icon {
+    background: #fff;
+    color: #000;
+    transform: rotate(45deg);
 }
 
 /* Cursor */
@@ -756,19 +877,25 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 60px;
+    /* Good stack spacing for mobile */
+    align-items: start;
 }
 
 @media (min-width: 960px) {
     .about-grid {
         grid-template-columns: 1.5fr 1fr;
         gap: 120px;
+        /* Wide breather for desktop */
     }
 }
 
 .about-headline {
     font-family: var(--font-family-display);
-    font-size: clamp(24px, 3vw, 40px);
-    line-height: 1.2;
+    font-size: clamp(24px, 5vw, 40px);
+    line-height: 1.4;
+    /* Increased from 1.25 to prevent ascender clash */
+    margin-top: 16px;
+    /* Explicit gap from label */
     margin-bottom: 32px;
     color: var(--text-primary);
     font-weight: 500;
