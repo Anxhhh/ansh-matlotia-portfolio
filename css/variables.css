@@ -17,8 +17,8 @@
   --mesh-gradient-2: radial-gradient(circle at 80% 60%, rgba(25, 25, 112, 0.15), transparent 40%);
 
   /* Typography */
-  --font-family-display: 'Outfit', sans-serif;
-  --font-family-body: 'Inter', sans-serif;
+  --font-family-display: 'Roboto', sans-serif;
+  --font-family-body: 'Roboto', sans-serif;
 
   /* Spacing System (Module: 4px/8px) */
   --space-xs: 4px;
