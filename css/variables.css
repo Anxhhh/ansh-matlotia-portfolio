@@ -1,16 +1,21 @@
 /* Design Tokens & Variables */
 :root {
   /* Color Palette - Premium Dark Theme */
-  --bg-core: #080808;      /* Rich Black */
-  --bg-surface: #121212;   /* Secondary Surface */
-  --text-primary: #EDEDED; /* Off-white, high contrast */
-  --text-secondary: #888888; /* Muted, sophisticated gray */
-  --accent: #3B82F6;       /* Electric Blue - Use sparingly */
-  
+  --bg-core: #080808;
+  /* Rich Black */
+  --bg-surface: #121212;
+  /* Secondary Surface */
+  --text-primary: #EDEDED;
+  /* Off-white, high contrast */
+  --text-secondary: #888888;
+  /* Muted, sophisticated gray */
+  --accent: #3B82F6;
+  /* Electric Blue - Use sparingly */
+
   /* Typography */
   --font-family-display: 'Outfit', sans-serif;
   --font-family-body: 'Inter', sans-serif;
-  
+
   /* Spacing System (Module: 4px/8px) */
   --space-xs: 4px;
   --space-sm: 8px;
@@ -18,15 +23,23 @@
   --space-lg: 32px;
   --space-xl: 64px;
   --space-2xl: 128px;
-  
+
   /* Layout */
   --container-max-width: 1440px;
   --container-padding: 24px;
-  
+
   /* Animation */
   --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
   --transition-fast: 0.2s ease;
   --transition-medium: 0.5s var(--ease-out-expo);
+
+  /* Bento UI Tokens */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.2);
+  --grid-gap: 16px;
+  --radius-lg: 24px;
+  --radius-md: 16px;
 }
 
 @media (min-width: 768px) {

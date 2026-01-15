@@ -87,14 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Parallax Logic
                 parallaxElements.forEach(el => {
                     const speed = el.getAttribute('data-parallax');
-                    const limit = el.getAttribute('data-parallax-limit') || 100;
-
-                    // Simple logic: move element based on scroll * speed
-                    // Positive value moves element DOWN as we scroll DOWN.
-                    // Since page content moves UP, moving element DOWN cancels some of that motion, creating a 'lag' or 'depth' effect.
                     const yPos = (scrolled * speed);
-
-                    // Clamp if needed, but for hero it's usually fine to float away
                     el.style.transform = `translateY(${yPos}px)`;
                 });
 
@@ -126,4 +119,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+
+    /* Local Time Logic */
+    function updateTime() {
+        const timeDisplay = document.getElementById('local-time');
+        if (timeDisplay) {
+            const now = new Date();
+            const options = { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' };
+            timeDisplay.textContent = now.toLocaleTimeString([], options) + " IST";
+        }
+    }
+    setInterval(updateTime, 1000);
+    updateTime(); // Initial call
 });

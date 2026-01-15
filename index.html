@@ -46,35 +46,59 @@
   </nav>
 
   <!-- Hero Section -->
-  <header class="hero">
-    <div class="container hero-container">
-      <div class="hero-content">
-        <p class="hero-overline" data-parallax="0.2">Based in India</p>
-        <h1 class="hero-title display-text" data-parallax="0.1">
-          Interface Designer<br>
-          <span class="text-secondary">& Engineer</span>
-        </h1>
-        <p class="hero-description" data-parallax="0.05">
-          Crafting clarity from complexity. I build editorial-grade digital experiences that blend aesthetic precision
-          with technical performance.
-        </p>
-      </div>
+  <!-- Hero Section: Bento Grid -->
+  <header class="hero-bento-section">
+    <div class="container">
+      <div class="bento-grid">
 
-      <div class="scroll-indicator">
-        <span class="scroll-text">Scroll</span>
-        <div class="scroll-line"></div>
-      </div>
-
-      <!-- Hero Avatar / Morphing Blob -->
-      <div class="hero-visual">
-        <div class="hero-float-wrapper">
-          <div class="hero-glow"></div>
-          <div class="hero-blob-mask">
-            <img src="assets/images/avatar.png" alt="Ansh Matlotia Avatar" class="hero-avatar-img">
+        <!-- Box 1: Intro (Large) -->
+        <div class="bento-box box-intro reveal">
+          <div class="intro-content">
+            <h1 class="intro-title display-text">
+              Crafting Digital <br>
+              <span class="text-secondary">Perfection</span>
+            </h1>
+            <p class="intro-desc">
+              I’m Ansh Matlotia, an Interface Designer & Engineer building editorial-grade web experiences.
+            </p>
+            <div class="intro-actions">
+              <a href="#work" class="btn btn-primary">View Work</a>
+              <a href="mailto:anshmatlotia@gmail.com" class="btn btn-glass">Contact Me</a>
+            </div>
           </div>
         </div>
-      </div>
 
+        <!-- Box 2: Visual (Avatar) -->
+        <div class="bento-box box-visual reveal delay-100">
+          <div class="hero-blob-mask">
+            <img src="assets/images/avatar.png" alt="Ansh Matlotia" class="hero-avatar-img">
+          </div>
+        </div>
+
+        <!-- Box 3: Status -->
+        <div class="bento-box box-status reveal delay-200">
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">Available for new projects</span>
+          </div>
+          <div class="location-badge">
+            <span>India</span>
+            <span class="time-display" id="local-time"></span>
+          </div>
+        </div>
+
+        <!-- Box 4: Tech Stack (Marquee) -->
+        <div class="bento-box box-tech reveal delay-300">
+          <div class="tech-marquee">
+            <div class="tech-track">
+              <span>React</span> • <span>Next.js</span> • <span>TypeScript</span> • <span>Figma</span> •
+              <span>Node.js</span> • <span>WebGL</span> • <span>GSAP</span> • <span>Python</span> • <span>UI/UX</span> •
+              <span>React</span> • <span>Next.js</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </header>
 
